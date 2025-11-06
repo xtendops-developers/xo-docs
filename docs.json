@@ -14,30 +14,35 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "O Get Started",
             "pages": [
               "introduction",
               "definitions",
               "architecture",
-              "dashboard",
-              "personas"
+              "buildingBestPractices"
             ]
           },
           {
-            "group": "Platform Essentials",
+            "group": "O Platform Essentials",
             "pages": [
-              "platform/smartAgentProfile",
-              "platform/smartAgentBuilder",
-              "platform/smartAgentActions",
-              "platform/settings",
+              "platform/dashboard",
+              {
+                "group": "SmartAgent",
+                "pages": [
+                  "platform/smartAgentProfile",
+                  "platform/smartAgentBuilder",
+                  "platform/smartAgentActions"
+                ]
+              },
               "platform/evals",
               "platform/knowledgeManagement",
               "platform/qaQueue",
-              "platform/reporting"
+              "platform/reporting",
+              "platform/settings"
             ]
           },
           {
-            "group": "Step Types",
+            "group": "O Step Types",
             "pages": [
               "platform/smartAgentSteps",
               "platform/steps/call-smartagent",
@@ -51,17 +56,22 @@
             ]
           },
           {
-            "group": "Agent Tools",
-            "pages": ["coPilot"]
+            "group": "O Agent Tools",
+            "pages": [
+              "overview",
+              "coPilot",
+              "missionControl",
+              "supportedIntegrations"
+            ]
           },
           {
-            "group": "Security",
+            "group": "O Security",
             "pages": ["security/general", "security/faq"]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "O API Reference",
         "groups": [
           {
             "group": "Getting Started",
