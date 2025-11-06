@@ -16,11 +16,7 @@ icon: "layer-group"
   >
     Call other SmartAgents to enable modular, purpose-built designs
   </Card>
-  <Card
-    title="Q* (Q-Star)"
-    icon="brain-circuit"
-    href="/platform/steps/q-star"
-  >
+  <Card title="Q* (Q-Star)" icon="brain-circuit" href="/platform/steps/q-star">
     Self-improving AI that learns from modifications
   </Card>
   <Card
@@ -44,149 +40,62 @@ icon: "layer-group"
   >
     Retrieve articles from your knowledge base
   </Card>
-  <Card
-    title="REST API Call"
-    icon="plug"
-    href="/platform/steps/rest-api-call"
-  >
+  <Card title="REST API Call" icon="plug" href="/platform/steps/rest-api-call">
     Connect to external systems via HTTP
   </Card>
-  <Card
-    title="LLM Step"
-    icon="sparkles"
-    href="/platform/steps/llm-step"
-  >
+  <Card title="LLM Step" icon="sparkles" href="/platform/steps/llm-step">
     Generate AI-driven responses using prompts
   </Card>
-  <Card
-    title="Router"
-    icon="split"
-    href="/platform/steps/router"
-  >
+  <Card title="Router" icon="split" href="/platform/steps/router">
     Route workflow based on conditions
   </Card>
 </CardGroup>
 
-## Step Features
+## Steps on the Canvas
 
-Additional capabilities that can be applied to any step:
+Each step type has a distinct appearance on the canvas with unique icons and display of relevant information for quick awareness. Steps on the canvas include controls for testing individual steps and the ability to group child steps together for better workflow organization.
 
-### Step Simulation
+### Grouping Steps
 
-Runs an individual step with custom inputs to view outputs, enabling targeted unit testing.
+Grouping steps together allows you to create a single step that can be tested and deployed as a unit. This is useful for complex workflows that need to be tested and deployed as a single unit.
 
-**Benefits:**
-- Test steps in isolation
-- Debug specific workflow sections
-- Validate step configurations
-- Iterate quickly without full workflow runs
+![Group Step Open](/images/platform/group-step-open.png)
 
-### Play All
+![Group Step Closed](/images/platform/group-step-closed.png)
 
-Executes the full SmartAgent from the top with specified inputs to test the entire workflow.
+### Testing Steps
 
-**Use Cases:**
-- End-to-end testing
-- Validation before deployment
-- Demonstration and training
-- Regression testing
+Testing steps allows you to test the step before it is deployed to the workflow. This is useful for ensuring that the step is working as expected before it is deployed to the workflow.
+
+![Testing Steps](/images/platform/step-testing.png)
+
+## Step Structure
+
+Each step in the SmartAgent builder is organized into three main sections:
+
+![Step Structure](/images/platform/step-structure.png)
 
 ### Settings
 
-Step-specific configurations such as:
-- Override LLM model selection
-- Adjust prompts using dynamic variables
-- Configure timeout values
-- Set retry logic
-- Define error handling
+The Settings section contains configuration options specific to the currently selected step type.
+
+- Manipulation of input parameters
+- Step-specific options
 
 ### Outputs
 
-Defines the step's output name, next steps, and where results go (e.g., Co-Pilot or directly to the user).
+The Outputs section allows you to:
 
-**Configuration Options:**
-- Output variable naming
-- Next step routing
-- Conditional outputs
-- Multiple output paths
+- Name the step's output variable
+- Determine what happens next in the workflow
+- Control if the steps output is sent to the user
 
 ### Advanced Settings
 
-Specialized options for niche use cases, typically not needed in standard workflows.
+The Advanced Settings section provides additional running options for specialized use cases, such as:
 
-**Examples:**
-- Custom retry policies
-- Specialized logging
-- Performance tuning
-- Edge case handling
-
-## Events
-
-Triggers within a conversation that initiate predefined chains of steps:
-
-### On Conversation Start
-
-Runs when a new conversation begins, before the main SmartAgent executes.
-
-**Common Uses:**
-- Prepare context
-- Fetch external data (customer info, order history, etc.)
-- Generate conversation summaries
-- Initialize background variables
-
-### On First Generation Complete
-
-Runs after the first AI response is generated to perform follow-up actions.
-
-**Common Uses:**
-- Logging and analytics
-- Additional processing
-- API calls to update external systems
-- Quality assurance checks
-
-## Best Practices
-
-1. **Keep Steps Focused** - Each step should have a single, clear purpose
-2. **Use Routers Wisely** - Route based on intent or conversation stage for clarity
-3. **Test Incrementally** - Use Step Simulation to test individual steps
-4. **Name Outputs Clearly** - Use descriptive names for step outputs
-5. **Leverage Events** - Use conversation events to prepare context efficiently
-
-## Common Workflow Patterns
-
-### Linear Flow
-```
-Customer Message → LLM Step → Response
-```
-
-### Knowledge-Enhanced Response
-```
-Customer Message → Knowledge Search → LLM Step → Response
-```
-
-### API Integration
-```
-Customer Message → REST API Call → Structured Output → LLM Step → Response
-```
-
-### Conditional Routing
-```
-Customer Message → Router →
-  Intent A → SmartAgent A
-  Intent B → SmartAgent B
-  Default → General Handler
-```
-
-### Complex Workflow
-```
-Customer Message →
-  Knowledge Search →
-  JavaScript Code (process) →
-  Router →
-    Premium → REST API Call → LLM Step
-    Standard → LLM Step
-  → Response
-```
+- Running steps in parallel
+- Custom execution configurations
 
 ## Related Pages
 
