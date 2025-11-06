@@ -45,14 +45,14 @@
             "group": "O Step Types",
             "pages": [
               "platform/smartAgentSteps",
-              "platform/steps/call-smartagent",
-              "platform/steps/q-star",
+              "platform/steps/llm-step",
               "platform/steps/structured-output",
+              "platform/steps/router",
               "platform/steps/javascript-code",
               "platform/steps/knowledge-search",
               "platform/steps/rest-api-call",
-              "platform/steps/llm-step",
-              "platform/steps/router"
+              "platform/steps/call-smartagent",
+              "platform/steps/q-star"
             ]
           },
           {
