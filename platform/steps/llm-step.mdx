@@ -10,45 +10,30 @@ The **LLM Step** uses prompts to generate AI-driven responses using large langua
 
 The LLM Step is the core AI component in most SmartAgent workflows. It generates human-like responses to customer inquiries using advanced language models with customizable prompts.
 
-<div align="center">
-  ![LLM Step](/images/steps/llm-step.png)
-</div>
+<div align="center">![LLM Step](/images/steps/llm-step.png)</div>
 
 ## Settings
 
-### LLM
+### LLM and Model
 
-Select the LLM provider for this step. Overrides the default LLM set in SmartAgent settings.
-
-**Options:**
-- OpenAI
-- Anthropic
-- Azure
-- Google (Gemini)
-- And more
-
-### LLM Model
-
-Choose the specific model to use with the selected provider.
-
-**Common models:**
-- GPT-4o, GPT-4o-mini (OpenAI)
-- Claude Sonnet, Claude Haiku (Anthropic)
-- Gemini Pro, Gemini Flash (Google)
-
-Higher-tier models provide better reasoning but cost more and run slower.
+Select the LLM provider and specific model for this step. Overrides the default LLM and model set in SmartAgent settings. Higher-tier models provide better reasoning but cost more and run slower.
 
 ### Prompt
 
 The prompt sent to the LLM to generate a response. Supports dynamic variables from previous steps or conversation context.
 
 **Dynamic variables:**
-- `{customer_message}` - Latest customer input
-- `{conversation_history}` - Full conversation thread
-- `{step_name.output}` - Output from a previous step
+
+- `{original_question}` - Last customer message
+- `{chat_history}` - Full conversation thread
+- `{user_first_name}` - Customer's first name
+- `{user_last_name}` - Customer's last name
+- `{steps_last_performed}` - Complete string of all steps ran in the previous message
+- `{conversation_last_step}` - Final step performed in the previous message
 - Any custom background variables
 
 **Example:**
+
 ```
 You are a helpful customer service agent.
 
@@ -77,7 +62,7 @@ When enabled, sends the output to the Copilot app for agent review before sendin
 
 ### Send Automatically
 
-When enabled, sends the output directly to the user without requiring confirmation.
+When enabled, sends the output directly to the user without requiring agent intervention.
 
 ## Advanced Settings
 
@@ -95,6 +80,6 @@ When enabled, saves the step output to the background context, making it availab
 
 ## Related Pages
 
-- [Q* Step](/platform/steps/q-star) - Self-improving AI step
+- [Q\* Step](/platform/steps/q-star) - Self-improving AI step
 - [Knowledge Search](/platform/steps/knowledge-search) - Retrieve relevant knowledge
 - [Structured Output](/platform/steps/structured-output) - Format LLM responses

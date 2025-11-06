@@ -16,20 +16,9 @@ Q* represents an advanced AI capability that automatically learns from changes m
 
 ## Settings
 
-### LLM
+### LLM and Model
 
-Select the LLM provider for generating responses.
-
-**Options:**
-- OpenAI
-- Anthropic
-- Azure
-- Google (Gemini)
-- And more
-
-### LLM Model
-
-Choose the specific model to use with the selected provider.
+Select the LLM provider and specific model for generating responses. Overrides the default LLM and model set in SmartAgent settings.
 
 ### Prompt
 
@@ -68,33 +57,17 @@ Balance between the current message and full conversation history when generatin
 - 0.5 = Balanced between current message and conversation history
 - 1.0 = Focuses entirely on current message, ignores history
 
-### Compression LLM
+### Compression LLM and Model
 
-LLM provider used for compressing conversation history into signatures.
-
-**Recommended:** Gemini (cost-effective for compression tasks)
-
-### Compression LLM Model
-
-Specific model used for compression.
-
-**Recommended:** gemini-2.5-flash-lite
+Select the LLM provider and model used for compressing conversation history into signatures.
 
 ### Enable Auto-Prompt Improvement
 
 When enabled, automatically improves prompts using AI when feedback scores are low. Q* learns from these improvements to enhance future responses.
 
-### Auto-Prompt LLM
+### Auto-Prompt LLM and Model
 
-LLM provider for automatic prompt improvement.
-
-**Recommended:** Anthropic (Claude)
-
-### Auto-Prompt LLM Model
-
-Specific model for prompt improvement.
-
-**Recommended:** claude-sonnet-4-0
+Select the LLM provider and model for automatic prompt improvement when feedback scores are low.
 
 ## Outputs
 
