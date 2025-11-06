@@ -1,193 +1,152 @@
 ---
 title: Knowledge Search
-description: Retrieve knowledge articles to add context to interactions
+description: Retrieve articles from your knowledge base
 icon: "book-open-reader"
 ---
 
-The **Knowledge Search** step retrieves specific articles based on filters and similarity search to add context to interactions.
+The **Knowledge Search** step retrieves relevant articles from your knowledge base using semantic similarity search.
 
 ## Overview
 
-Knowledge Search enables SmartAgents to dynamically retrieve relevant information from your knowledge base and incorporate it into conversations, ensuring accurate and consistent responses.
-
-## Features
-
-### Semantic Similarity Matching
-Find articles based on meaning, not just keywords.
-
-**How It Works:**
-- Analyzes the semantic meaning of the customer's question
-- Compares against knowledge article content
-- Returns the most relevant matches
-
-### Filter-Based Article Retrieval
-Narrow results using metadata filters.
-
-**Filter Options:**
-- Namespace
-- Tags
-- Categories
-- Last updated date
-- Priority level
-
-### Context Injection for AI Responses
-Retrieved articles are automatically added to the conversation context for use by LLM steps.
-
-### Integration with Knowledge Management
-Seamlessly pulls from articles uploaded in Knowledge Management.
+Knowledge Search enables SmartAgents to dynamically retrieve relevant information from your knowledge base and incorporate it into conversations. It uses semantic search to find the most relevant articles based on meaning, not just keywords.
 
 [Learn more about Knowledge Management →](/platform/knowledgeManagement)
 
-## Retrieval Methods
+## Settings
 
-### Similarity Search Only
-Returns articles most similar to the query, regardless of category.
+### Namespace
 
-**Best For:**
-- Open-ended questions
-- When you want the best match across all content
-- Exploratory searches
+The knowledge base namespace to search within. Each namespace contains a collection of related articles.
 
-### Filter-Based Search
-Returns articles matching specific criteria.
+**Example namespaces:**
+- Product documentation
+- Company policies
+- Troubleshooting guides
+- FAQ articles
 
-**Best For:**
-- Category-specific searches
-- Product-specific information
-- Time-sensitive content
+### Search Term
 
-### Combined Approach
-Apply filters first to narrow scope, then use similarity search within filtered results.
+Variable containing the text to search for. Typically the customer's message or a specific query extracted from context.
 
-**Best For:**
-- Most use cases
-- Balancing precision and relevance
-- Large knowledge bases
+**Example:** `customer_message` or `extracted_question`
 
-## Configuration
+### Knowledge Return Count
 
-### Search Query
-Define what to search for:
-- Customer's latest message
-- Specific field from context
-- Combination of multiple fields
+Number of articles to retrieve from the search. Returns the top N most relevant matches.
 
-### Filters
-Set criteria to narrow results:
+**Default:** 2
+
+**Recommendation:** Keep between 2-5 for optimal context without overwhelming the LLM.
+
+## Outputs
+
+### Outputs
+
+Name of the variable where the retrieved articles will be saved. Can be referenced in subsequent steps using `{variable_name}`.
+
+**Default:** `knowledge_results`
+
+**Using retrieved knowledge:**
 ```
-Namespace: "product-info"
-Tags: ["returns", "policy"]
-Updated: Last 30 days
+Answer the customer's question using these knowledge articles:
+
+{knowledge_results}
 ```
 
-### Result Limit
-Specify how many articles to return (e.g., top 3 matches).
+### Next Steps
 
-### Similarity Threshold
-Set minimum similarity score (0-1) for results to be included.
+The step(s) to execute after retrieving knowledge. Typically routes to an LLM step that uses the retrieved articles to generate a response.
 
-## Example Use Cases
+### Send Documents
+
+When enabled, sends the retrieved knowledge articles directly to the user instead of just using them as context for AI generation.
+
+**Use case:** Allow users to reference the source documents directly.
+
+## Advanced Settings
+
+### Filter (key-value pairs)
+
+Metadata filters to narrow search results. Provide comma-separated key-value pairs to filter articles by specific attributes.
+
+**Format:** `key1, value1, key2, value2`
+
+**Example:**
+```
+category, Returns, priority, high
+```
+
+This filters for articles where `category = "Returns"` AND `priority = "high"`.
+
+**Dynamic variables:** Use `@variable_name` to filter by variable values.
+
+**Example:**
+```
+category, Reports, intent, @intentVar
+```
+
+### Fallback Filter (key-value pairs)
+
+Broader filter used when the primary search returns no results. Uses the same key-value format as the main filter but should be less restrictive.
+
+**Example:**
+```
+category, General
+```
+
+**Use case:** Ensure some results are always returned, even if the primary search is too specific.
+
+### Follow Up Steps
+
+Steps that run in parallel after this step completes. Use this for actions that don't need to block the workflow, such as logging or analytics.
+
+### Background Steps
+
+Steps that run in the background while the main workflow continues. Useful for long-running tasks that shouldn't delay the response.
+
+### Write Outputs to Background Context
+
+When enabled, saves the retrieved articles to the background context, making them available to all subsequent steps in the conversation without explicitly passing them.
+
+## Common Use Cases
 
 ### Product Support
-```
-Query: Customer's question about product features
-Filter: Namespace = "product-specs"
-Return: Top 2 most relevant product articles
-```
+Retrieve product documentation to help answer customer questions.
 
-###Troubleshooting
-```
-Query: Customer's issue description
-Filter: Tags include "troubleshooting"
-Similarity: > 0.7
-Return: Top 5 relevant solutions
-```
+**Configuration:**
+- Namespace: `product-docs`
+- Search term: `customer_message`
+- Return count: 3
+
+### Troubleshooting
+Find relevant solutions for customer issues.
+
+**Configuration:**
+- Namespace: `troubleshooting`
+- Search term: `issue_description`
+- Filter: `product, @product_name`
+- Return count: 5
 
 ### Policy Questions
-```
-Query: Customer's policy-related question
-Filter: Namespace = "policies", Updated within 90 days
-Return: Most relevant current policy
-```
+Retrieve company policies to provide accurate information.
 
-## Output
+**Configuration:**
+- Namespace: `policies`
+- Search term: `customer_message`
+- Filter: `type, policy`
+- Return count: 2
 
-The Knowledge Search step returns:
-- **Articles**: Array of matching articles
-- **Scores**: Relevance scores for each article
-- **Metadata**: Article titles, IDs, and other metadata
+### FAQ Responses
+Search frequently asked questions to quickly resolve common inquiries.
 
-### Using Retrieved Articles
-
-**In LLM Steps:**
-Articles are automatically available as context. Reference them in prompts:
-```
-Use the following knowledge articles to answer the customer's question:
-{knowledge_search_results}
-```
-
-**In Other Steps:**
-Access article content via the step output variable.
-
-## Best Practices
-
-1. **Use Appropriate Filters** - Narrow scope for better precision
-2. **Set Reasonable Limits** - Don't retrieve more articles than needed
-3. **Monitor Performance** - Track which articles are most useful
-4. **Keep Knowledge Current** - Regularly update knowledge base
-5. **Test Queries** - Validate that searches return expected results
-
-## Common Patterns
-
-### Multi-Step Search
-```
-1. First search: Broad query to identify category
-2. Second search: Targeted query within identified category
-3. Return: Most specific, relevant article
-```
-
-### Fallback Strategy
-```
-1. Try specific search with high similarity threshold
-2. If no results, broaden search with lower threshold
-3. If still no results, use default/general article
-```
-
-### Knowledge Augmentation
-```
-1. Knowledge Search retrieves relevant articles
-2. LLM Step uses articles as context
-3. Structured Output formats the response
-4. Return to customer
-```
-
-## Troubleshooting
-
-**No Results Found**
-- Check filter criteria aren't too restrictive
-- Lower similarity threshold
-- Verify knowledge articles exist for the topic
-
-**Irrelevant Results**
-- Tighten filters
-- Increase similarity threshold
-- Review and improve article content
-
-**Slow Performance**
-- Limit number of results
-- Use filters to narrow search scope
-- Consider caching frequently accessed articles
-
-## Metrics
-
-Track Knowledge Search effectiveness:
-- **Hit Rate**: Percentage of searches returning results
-- **Usage by Article**: Which articles are retrieved most
-- **Feedback Scores**: Quality of responses using retrieved knowledge
-- **Search Patterns**: Common queries and topics
+**Configuration:**
+- Namespace: `faq`
+- Search term: `customer_message`
+- Return count: 3
+- Fallback filter: `category, General`
 
 ## Related Pages
 
 - [Knowledge Management](/platform/knowledgeManagement) - Upload and manage articles
 - [LLM Step](/platform/steps/llm-step) - Use retrieved knowledge in AI responses
-- [Structured Output](/platform/steps/structured-output) - Format knowledge-based responses
+- [Structured Output](/platform/steps/structured-output) - Extract structured data from knowledge

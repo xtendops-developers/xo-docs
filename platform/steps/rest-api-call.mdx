@@ -1,72 +1,63 @@
 ---
 title: REST API Call
-description: Connect to external systems using HTTP requests
+description: Connect to external systems via HTTP
 icon: "plug"
 ---
 
-The **REST API Call** step connects to external systems using GET, POST, PUT, or PATCH requests with authentication support.
+The **REST API Call** step connects to external systems using HTTP requests to fetch data, update records, or trigger actions.
 
 ## Overview
 
-The REST API Call step enables SmartAgents to integrate with external systems, fetch data, update records, and trigger actions in third-party platforms.
+The REST API Call step enables SmartAgents to integrate with external systems like CRMs, e-commerce platforms, payment processors, and other services via standard HTTP methods (GET, POST, PUT, PATCH, DELETE).
 
-## Features
+## Settings
 
-### Full HTTP Method Support
-- **GET** - Retrieve data from external systems
-- **POST** - Create new records or trigger actions
-- **PUT** - Update existing records (full replacement)
-- **PATCH** - Partial updates to existing records
-- **DELETE** - Remove records (when supported)
+### URL
 
-### Authentication Support
-Securely authenticate with external services using multiple methods.
+The API endpoint to call. Supports dynamic variables from previous steps.
 
-**Supported Auth Types:**
-- Bearer Token
-- API Key (header or query parameter)
-- Basic Authentication
-- OAuth 2.0
-- Custom headers
-
-### Header Customization
-Add custom headers for:
-- Content-Type specification
-- API versioning
-- Request tracking
-- Custom authentication
-
-### Request/Response Transformation
-- Format request data before sending
-- Transform response data after receiving
-- Handle different data formats (JSON, XML, form data)
-
-### Secure Credential Storage via Integrations
-Store API credentials securely in Settings > Integrations rather than hard-coding them in workflows.
-
-[Learn more about Integrations →](/platform/settings#integrations)
-
-## Configuration
-
-### Endpoint URL
-Specify the API endpoint to call:
+**Example:**
 ```
 https://api.example.com/v1/customers/{customer_id}
 ```
 
-### HTTP Method
-Select the appropriate method for your operation.
-
 ### Headers
-Configure request headers:
+
+HTTP headers to include with the request.
+
+**Common headers:**
 ```
 Content-Type: application/json
-Authorization: Bearer {api_token}
-X-API-Version: 2.0
+X-API-Key: {api_key}
+X-Request-ID: {request_id}
 ```
 
-### Request Body
-Define the payload for POST/PUT/PATCH requests:
+**Authorization:**
+For secure API authentication, add a `Secrets-Id` header that references credentials stored in the Secrets Manager (Settings > Integrations).
+
+**Example:**
+```
+Secrets-Id: my-api-secret
+```
+
+[Learn more about the Secrets Manager →](/platform/settings#integrations)
+
+### Method
+
+HTTP method for the request.
+
+**Options:**
+- **GET** - Retrieve data
+- **POST** - Create new records or trigger actions
+- **PUT** - Replace entire resources
+- **PATCH** - Partially update resources
+- **DELETE** - Remove resources
+
+### Body
+
+Request payload for POST, PUT, and PATCH requests. Supports JSON format with dynamic variables.
+
+**Example:**
 ```json
 {
   "customer_id": "{customer.id}",
@@ -75,27 +66,80 @@ Define the payload for POST/PUT/PATCH requests:
 }
 ```
 
-### Authentication
-Reference stored credentials from Integrations:
-```
-Integration: "Salesforce Production"
+### Inject Variable as Whole Body
+
+When enabled, uses the value of a specified variable as the entire request body instead of constructing JSON from the Body field.
+
+**Whole Body Key:** Name of the variable to inject (e.g., `request_data`).
+
+**Use case:** When you've already constructed the full request body in a previous JavaScript Code or Structured Output step.
+
+## Outputs
+
+### Outputs
+
+Name of the variable where the API response will be saved. Can be referenced in subsequent steps using `{variable_name}`.
+
+**Default:** `api_response`
+
+**Accessing response data:**
+```javascript
+{api_response.data.order_id}
+{api_response.status}
+{api_response.headers}
 ```
 
-## Example Use Cases
+### Next Steps
 
-### Fetch Customer Data from CRM
+The step(s) to execute after the API call completes. Select from existing steps or enter a custom step name using variables.
+
+## Advanced Settings
+
+### Write Outputs to BG Context
+
+When enabled, saves the API response to the background context, making it available to all subsequent steps in the conversation without explicitly passing it.
+
+### Mock Response for Eval Runs
+
+JSON response to return during evaluation runs (when conversation_id starts with 'evl_'). This allows you to test workflows without making real API calls.
+
+**Example:**
+```json
+{
+  "status": "success",
+  "order_id": "12345",
+  "message": "Order retrieved successfully"
+}
+```
+
+### Follow Up Steps
+
+Steps that run in parallel after this step completes. Use this for actions that don't need to block the workflow, such as logging or analytics.
+
+### Background Steps
+
+Steps that run in the background while the main workflow continues. Useful for long-running tasks that shouldn't delay the response.
+
+## Common Use Cases
+
+### Fetch Customer Data
+Retrieve customer information from a CRM.
+
+**Example:**
 ```
 Method: GET
 URL: https://api.crm.com/customers/{email}
-Auth: Integration "CRM API"
-Response: Customer profile, order history, preferences
+Headers: Secrets-Id: crm-api-key
 ```
 
 ### Create Support Ticket
+Create a new ticket in a support platform.
+
+**Example:**
 ```
 Method: POST
-URL: https://api.zendesk.com/tickets
-Auth: Integration "Zendesk"
+URL: https://api.zendesk.com/api/v2/tickets
+Headers: Secrets-Id: zendesk-auth
 Body: {
   "subject": "{issue_summary}",
   "description": "{full_description}",
@@ -104,137 +148,37 @@ Body: {
 ```
 
 ### Update Order Status
+Modify an order in an e-commerce system.
+
+**Example:**
 ```
 Method: PATCH
 URL: https://api.shop.com/orders/{order_id}
-Auth: Integration "Shopify"
+Headers: Secrets-Id: shopify-key
 Body: {
   "status": "cancelled",
   "cancellation_reason": "{reason}"
 }
 ```
 
-### Verify Address
+### Send Notification
+Trigger a notification via an external service.
+
+**Example:**
 ```
 Method: POST
-URL: https://api.address-validator.com/verify
-Auth: API Key in header
+URL: https://api.notifications.com/send
+Headers: Secrets-Id: notification-service
 Body: {
-  "street": "{address.street}",
-  "city": "{address.city}",
-  "zip": "{address.zip}"
+  "user_id": "{customer.id}",
+  "message": "{notification_text}",
+  "channel": "email"
 }
-Response: Validated address or error
 ```
-
-## Response Handling
-
-### Success Responses
-Access response data in subsequent steps:
-```javascript
-// Response stored in step output
-const customerData = rest_call_output.data;
-const orderId = rest_call_output.data.order_id;
-```
-
-### Error Handling
-Handle different response codes:
-- **200-299**: Success
-- **400-499**: Client errors (bad request, unauthorized, not found)
-- **500-599**: Server errors
-
-### Status Code Routing
-Use Router step to handle different outcomes:
-```
-If status = 200 → Success path
-If status = 404 → Not found path
-If status = 500 → Error handling path
-```
-
-## Best Practices
-
-1. **Use Integrations for Credentials** - Never hard-code API keys
-2. **Handle Errors Gracefully** - Plan for API failures
-3. **Set Timeouts** - Don't wait indefinitely for responses
-4. **Validate Responses** - Check data before using it
-5. **Log Important Calls** - Track API usage for debugging
-6. **Rate Limiting** - Respect API rate limits
-7. **Idempotency** - Ensure repeated calls don't cause issues
-
-## Common Integration Examples
-
-### Salesforce
-```
-Create Case:
-  POST https://instance.salesforce.com/services/data/v55.0/sobjects/Case
-  Auth: OAuth 2.0
-  Body: Case details
-```
-
-### Shopify
-```
-Get Order:
-  GET https://shop-name.myshopify.com/admin/api/2023-01/orders/{id}.json
-  Auth: API Key + Password
-```
-
-### Stripe
-```
-Create Refund:
-  POST https://api.stripe.com/v1/refunds
-  Auth: Bearer token
-  Body: charge_id, amount
-```
-
-## Security Considerations
-
-### Credential Management
-- Store all API keys in Integrations
-- Rotate credentials regularly
-- Use minimum required permissions
-- Never log sensitive credentials
-
-### Data Privacy
-- Don't send sensitive customer data unnecessarily
-- Encrypt data in transit (use HTTPS)
-- Comply with data regulations (GDPR, CCPA)
-
-### Error Messages
-- Don't expose API credentials in error messages
-- Log errors securely
-- Provide generic errors to end users
-
-## Performance Optimization
-
-### Caching
-Cache responses for frequently requested data that doesn't change often.
-
-### Parallel Calls
-When fetching independent data, make API calls in parallel rather than sequentially.
-
-### Batch Operations
-Use batch endpoints when available to reduce number of API calls.
-
-## Troubleshooting
-
-**Connection Timeout**
-- Check endpoint URL is correct
-- Verify network connectivity
-- Increase timeout setting
-
-**Authentication Failed**
-- Verify credentials in Integrations
-- Check token hasn't expired
-- Confirm correct auth method
-
-**Unexpected Response**
-- Log full response for inspection
-- Validate response schema
-- Check API version compatibility
 
 ## Related Pages
 
-- [Settings](/platform/settings) - Configure integrations
+- [Settings](/platform/settings) - Configure Secrets Manager
 - [JavaScript Code](/platform/steps/javascript-code) - Transform API responses
 - [Structured Output](/platform/steps/structured-output) - Format API request data
 - [Router](/platform/steps/router) - Handle different response scenarios

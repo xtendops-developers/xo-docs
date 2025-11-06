@@ -4,245 +4,93 @@ description: Generate AI-driven responses using large language models
 icon: "sparkles"
 ---
 
-The **LLM Step** uses prompts to generate AI-driven responses — the core AI step for many SmartAgent workflows.
+The **LLM Step** uses prompts to generate AI-driven responses using large language models.
 
 ## Overview
 
-The LLM (Large Language Model) Step is the heart of most SmartAgent workflows, using advanced AI models to understand context and generate human-like responses to customer inquiries.
+The LLM Step is the core AI component in most SmartAgent workflows. It generates human-like responses to customer inquiries using advanced language models with customizable prompts.
 
-## Key Features
+## Settings
 
-### Customizable Prompts with Dynamic Variables
-Create sophisticated prompts that incorporate conversation context, customer data, and previous step outputs.
+### LLM
+
+Select the LLM provider for this step. Overrides the default LLM set in SmartAgent settings.
+
+**Options:**
+- OpenAI
+- Anthropic
+- Azure
+- Google (Gemini)
+- And more
+
+### LLM Model
+
+Choose the specific model to use with the selected provider.
+
+**Common models:**
+- GPT-4o, GPT-4o-mini (OpenAI)
+- Claude Sonnet, Claude Haiku (Anthropic)
+- Gemini Pro, Gemini Flash (Google)
+
+Higher-tier models provide better reasoning but cost more and run slower.
+
+### Prompt
+
+The prompt sent to the LLM to generate a response. Supports dynamic variables from previous steps or conversation context.
+
+**Dynamic variables:**
+- `{customer_message}` - Latest customer input
+- `{conversation_history}` - Full conversation thread
+- `{step_name.output}` - Output from a previous step
+- Any custom background variables
 
 **Example:**
 ```
-You are a helpful customer service agent for {company_name}.
-The customer {customer_name} is asking about {topic}.
-Their order status is: {order_status}
-Previous conversation: {conversation_history}
+You are a helpful customer service agent.
 
-Respond professionally and helpfully.
+Customer question: {customer_message}
+
+Relevant knowledge: {knowledge_search.results}
+
+Provide a clear, professional response.
 ```
 
-### Model Selection Override
-Choose specific AI models for different use cases:
-- GPT-4 for complex reasoning
-- GPT-3.5 for faster, cost-effective responses
-- Claude for nuanced understanding
-- Specialized models for specific domains
+## Outputs
 
-### Temperature and Parameter Control
-Fine-tune AI behavior:
-- **Temperature**: Control randomness (0 = deterministic, 1 = creative)
-- **Max Tokens**: Limit response length
-- **Top P**: Control diversity of word choices
-- **Frequency Penalty**: Reduce repetition
+### Outputs
 
-### Context Injection from Previous Steps
-Automatically incorporate outputs from:
-- Knowledge Search results
-- API call responses
-- Structured data
-- Conversation history
+Name of the variable where the LLM response will be saved. This can be referenced in subsequent steps using `{variable_name}`.
 
-## Prompt Engineering
+**Default:** `response`
 
-### System Prompt
-Define the AI's role and behavior:
-```
-You are an expert technical support agent specializing in software troubleshooting.
-Always be patient, clear, and thorough in your explanations.
-If you don't know something, say so honestly rather than guessing.
-```
+### Next Steps
 
-### User Context
-Provide relevant background information:
-```
-Customer Tier: {customer.tier}
-Purchase Date: {order.date}
-Product: {order.product_name}
-Issue: {customer_message}
-```
+The step(s) to execute after this step completes. Select from existing steps or enter a custom step name using variables.
 
-### Instructions
-Give specific guidance for the response:
-```
-1. Acknowledge the customer's frustration
-2. Explain the root cause if known
-3. Provide step-by-step solution
-4. Offer additional help if needed
-5. Keep response under 150 words
-```
+### Send to Copilot
 
-## Dynamic Variables
+When enabled, sends the output to the Copilot app for agent review before sending to the user.
 
-Access data throughout your workflow:
+### Send Automatically
 
-**Conversation Data:**
-- `{customer_message}` - Latest customer input
-- `{conversation_history}` - Full conversation thread
-- `{customer_name}` - Customer's name
+When enabled, sends the output directly to the user without requiring confirmation.
 
-**Step Outputs:**
-- `{knowledge_search.articles}` - Retrieved knowledge
-- `{api_call.response}` - API response data
-- `{javascript.result}` - Calculated values
+## Advanced Settings
 
-**Background Context:**
-- `{customer.tier}` - Customer segment
-- `{order.status}` - Order information
-- Any custom context variables
+### Follow Up Steps
 
-## Model Configuration
+Steps that run in parallel after this step completes. Use this for actions that don't need to block the workflow, such as logging or analytics.
 
-### Selecting the Right Model
+### Background Steps
 
-**GPT-4 / Claude Opus**
-- Complex reasoning tasks
-- Multi-step problem solving
-- Nuanced language understanding
-- Higher cost, slower
+Steps that run in the background while the main workflow continues. Useful for long-running tasks that shouldn't delay the response.
 
-**GPT-3.5 / Claude Haiku**
-- Straightforward responses
-- High volume use cases
-- Cost-sensitive applications
-- Faster, more economical
+### Write Outputs to Background Context
 
-**Specialized Models**
-- Domain-specific tasks
-- Fine-tuned for your use case
-- Custom organization models
-
-### Temperature Settings
-
-**Low Temperature (0-0.3)**
-- Consistent, predictable outputs
-- Factual responses
-- Policy and procedure explanations
-- Recommended for most customer service
-
-**Medium Temperature (0.4-0.7)**
-- Balanced creativity and consistency
-- General conversation
-- Moderate variation in phrasing
-
-**High Temperature (0.8-1.0)**
-- Creative responses
-- Marketing copy
-- Varied phrasing
-- Less predictable
-
-## Best Practices
-
-1. **Be Specific in Prompts** - Clear instructions yield better results
-2. **Provide Context** - More relevant context = better responses
-3. **Test Thoroughly** - Validate outputs across different scenarios
-4. **Use Examples** - Show the AI what good responses look like
-5. **Set Constraints** - Limit length, tone, and format as needed
-6. **Monitor Performance** - Track response quality over time
-
-## Common Patterns
-
-### Few-Shot Prompting
-Provide examples of good responses:
-```
-Example 1:
-Customer: "Where's my order?"
-Response: "I'd be happy to check on that for you. Your order #12345 shipped on May 1st and should arrive by May 5th."
-
-Example 2:
-Customer: "This product is broken!"
-Response: "I'm sorry to hear that. Let's get this resolved for you right away. Can you tell me what's happening with the product?"
-
-Now respond to this customer:
-{customer_message}
-```
-
-### Chain of Thought
-Ask the AI to think step-by-step:
-```
-Before responding, consider:
-1. What is the customer really asking?
-2. What information do we have available?
-3. What's the best way to help?
-4. Are there any policy constraints?
-
-Then provide your response.
-```
-
-### Conditional Instructions
-Adapt behavior based on context:
-```
-If the customer seems frustrated:
-  - Acknowledge their feelings first
-  - Be extra empathetic
-
-If this is a premium customer:
-  - Offer additional concierge options
-  - Be proactive about solutions
-
-In all cases:
-  - Be professional and helpful
-```
-
-## Error Handling
-
-**No Response Generated**
-- Check prompt isn't empty
-- Verify model is accessible
-- Review token limits
-
-**Inappropriate Content**
-- Add content guidelines to prompt
-- Use content filtering
-- Implement review process
-
-**Inconsistent Outputs**
-- Lower temperature
-- Add more specific constraints
-- Provide better examples
-
-## Output Processing
-
-### Using LLM Outputs
-
-**Direct to Customer:**
-```
-LLM Step → Customer receives response
-```
-
-**Further Processing:**
-```
-LLM Step → Structured Output → API Call
-```
-
-**Review by Agent:**
-```
-LLM Step → Co-Pilot App → Agent edits → Send
-```
-
-## Performance Optimization
-
-### Reduce Latency
-- Use faster models when appropriate
-- Limit max_tokens
-- Cache common prompts
-
-### Control Costs
-- Use GPT-3.5 for simple queries
-- Set appropriate token limits
-- Monitor usage by model
-
-### Improve Quality
-- Refine prompts based on feedback
-- Provide better context
-- Use higher-quality models for critical paths
+When enabled, saves the step output to the background context, making it available to all subsequent steps in the conversation without explicitly passing it.
 
 ## Related Pages
 
 - [Q* Step](/platform/steps/q-star) - Self-improving AI step
-- [Knowledge Search](/platform/steps/knowledge-search) - Provide AI with relevant knowledge
-- [Structured Output](/platform/steps/structured-output) - Format AI responses
-- [Testing Suite](/platform/evals) - Validate LLM performance
+- [Knowledge Search](/platform/steps/knowledge-search) - Retrieve relevant knowledge
+- [Structured Output](/platform/steps/structured-output) - Format LLM responses

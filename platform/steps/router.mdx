@@ -4,265 +4,74 @@ description: Route workflow execution based on conditions
 icon: "split"
 ---
 
-The **Router** step routes workflow execution to different steps based on defined conditions (e.g., conversation stage or intent).
+The **Router** step routes workflow execution to different steps based on a variable value.
 
 ## Overview
 
-The Router step enables conditional branching in your SmartAgent workflows, directing the conversation flow to different paths based on runtime conditions, customer data, or conversation context.
+The Router step enables conditional branching in SmartAgent workflows by routing to different next steps based on the value of a specified variable. It's useful for directing conversations to specialized handlers based on intent, customer tier, or other dynamic factors.
 
-## Use Cases
+## Settings
+
+### Next Step Variable
+
+The variable that determines which route to take. The value of this variable must match one of the accepted next steps, otherwise it will route to the fallback step.
+
+**Example:** If you set this to `intent`, the router will check the value of `{intent}` and route accordingly.
+
+### Accepted Next Steps
+
+List of valid step names that this router can route to. The value of the next step variable must match one of these step names.
+
+**Example configuration:**
+- Accepted next steps: `order_status`, `returns`, `billing`
+- If `{intent}` = `order_status`, routes to the `order_status` step
+- If `{intent}` = `returns`, routes to the `returns` step
+- If `{intent}` = `billing`, routes to the `billing` step
+
+### Fallback Step
+
+The default step to route to if the next step variable doesn't match any of the accepted next steps. This ensures the workflow always has a path forward.
+
+**Example:** Set to `general_support` to handle all unmatched cases.
+
+## Advanced Options
+
+### Follow Up Steps
+
+Steps that run in parallel after the router completes. Use this for actions that don't need to block the workflow, such as logging or analytics.
+
+### Background Steps
+
+Steps that run in the background while the main workflow continues. Useful for long-running tasks that shouldn't delay the response.
+
+## Common Use Cases
 
 ### Intent-Based Routing
-Direct conversations to specialized handlers based on customer intent.
+Route to specialized handlers based on customer intent detected by a previous LLM step.
+
+**Example workflow:**
+1. LLM Step classifies customer intent and outputs to `{intent}` variable
+2. Router checks `{intent}` value
+3. Routes to appropriate handler (order_status, returns, billing, etc.)
+
+### Customer Tier Routing
+Direct premium customers to specialized support flows.
 
 **Example:**
-```
-If intent = "order_status" → Order Status Handler
-If intent = "return_request" → Returns Handler
-If intent = "billing_question" → Billing Handler
-Else → General Support Handler
-```
+- Next step variable: `customer_tier`
+- Accepted next steps: `premium_support`, `vip_support`
+- Fallback step: `standard_support`
 
-### Conditional Workflow Branching
-Choose different paths based on business logic.
+### Conditional Workflow Paths
+Route based on business logic evaluated in a previous JavaScript Code step.
 
 **Example:**
-```
-If customer.tier = "premium" → Premium Support Flow
-If order.value > 500 → High Value Order Flow
-Else → Standard Flow
-```
-
-### Stage-Specific Handling
-Route based on where the customer is in their journey.
-
-**Example:**
-```
-If conversation_stage = "greeting" → Welcome Flow
-If conversation_stage = "information_gathering" → Data Collection Flow
-If conversation_stage = "resolution" → Solution Delivery Flow
-```
-
-### Error Handling Paths
-Gracefully handle different error scenarios.
-
-**Example:**
-```
-If api_call.status = 200 → Success Path
-If api_call.status = 404 → Not Found Handler
-If api_call.status = 500 → Error Recovery Path
-```
-
-## How It Works
-
-1. **Evaluate Conditions**: Router checks each condition in order
-2. **Find Match**: Stops at first matching condition
-3. **Execute Path**: Routes to the specified next step
-4. **Continue Workflow**: Execution continues from the routed step
-
-## Condition Types
-
-### Equality Checks
-```
-intent == "order_status"
-customer.tier == "premium"
-order.status == "shipped"
-```
-
-### Comparisons
-```
-order.total > 100
-age >= 18
-items_count < 5
-```
-
-### Contains / Includes
-```
-message.toLowerCase().includes("urgent")
-customer.tags.includes("vip")
-```
-
-### Boolean Logic
-```
-isPremium && isUrgent
-orderValue > 500 || customer.tier == "gold"
-!hasActiveSubscription
-```
-
-### Regular Expressions
-```
-/urgent|emergency/i.test(message)
-/^\d{5}$/.test(zipCode)
-```
-
-## Configuration
-
-### Conditions
-Define each routing path:
-
-**Condition 1:**
-- **Name**: Premium Customer
-- **Condition**: `customer.tier === "premium"`
-- **Next Step**: Premium Support Flow
-
-**Condition 2:**
-- **Name**: High Value Order
-- **Condition**: `order.total > 500`
-- **Next Step**: High Value Handler
-
-**Default:**
-- **Next Step**: Standard Flow
-
-### Evaluation Order
-Conditions are evaluated in order from top to bottom. The first match wins.
-
-## Best Practices
-
-1. **Order Matters** - Place most specific conditions first
-2. **Always Have Default** - Provide a fallback path
-3. **Keep Conditions Simple** - Complex logic belongs in JavaScript Code step
-4. **Test All Paths** - Verify each route works as expected
-5. **Document Logic** - Explain routing decisions clearly
-
-## Common Patterns
-
-### Multi-Level Routing
-```
-Router 1: Check customer tier
-  ↓
-Premium path → Router 2: Check issue type
-  ↓
-  Technical → Technical Premium Support
-  Billing → Billing Premium Support
-
-Standard path → Router 3: Check issue type
-  ↓
-  Technical → Technical Standard Support
-  Billing → Billing Standard Support
-```
-
-### Priority-Based Routing
-```
-If critical_issue → Immediate Escalation
-Else if premium_customer → Priority Queue
-Else if business_hours → Standard Queue
-Else → After Hours Queue
-```
-
-### Data Availability Routing
-```
-If customer_data.exists → Personalized Flow
-Else if email_provided → Email Lookup Flow
-Else → Guest Flow
-```
-
-## Examples
-
-### Intent Router
-```javascript
-// Condition checks
-switch(intent) {
-  case "order_status":
-    return "order_status_handler";
-  case "return_request":
-    return "returns_handler";
-  case "product_question":
-    return "product_support_handler";
-  default:
-    return "general_support_handler";
-}
-```
-
-### Priority Calculator
-```javascript
-// Determine priority then route
-const isPremium = customer.tier === "premium";
-const isUrgent = message.toLowerCase().includes("urgent");
-const highValue = order.total > 500;
-
-if (isPremium && isUrgent) {
-  return "critical_priority_path";
-} else if (isPremium || highValue) {
-  return "high_priority_path";
-} else if (isUrgent) {
-  return "medium_priority_path";
-} else {
-  return "standard_path";
-}
-```
-
-### Business Hours Router
-```javascript
-const hour = new Date().getHours();
-const isWeekday = new Date().getDay() >= 1 && new Date().getDay() <= 5;
-const isBusinessHours = isWeekday && hour >= 9 && hour < 17;
-
-if (isBusinessHours) {
-  return "live_agent_path";
-} else {
-  return "automated_response_path";
-}
-```
-
-## Advanced Techniques
-
-### Dynamic Routing
-Use data from previous steps to determine routes:
-```
-knowledge_search_result.category → Route to category-specific handler
-api_response.customer_segment → Route to segment-specific flow
-```
-
-### Percentage-Based Routing
-A/B test different flows:
-```javascript
-const random = Math.random();
-if (random < 0.5) {
-  return "flow_a"; // 50% of traffic
-} else {
-  return "flow_b"; // 50% of traffic
-}
-```
-
-### Multi-Condition Routing
-Combine multiple factors:
-```javascript
-const score =
-  (customer.tier === "premium" ? 10 : 0) +
-  (isUrgent ? 5 : 0) +
-  (orderValue > 500 ? 3 : 0);
-
-if (score >= 15) return "top_priority";
-if (score >= 8) return "high_priority";
-if (score >= 3) return "medium_priority";
-return "standard";
-```
-
-## Debugging Router Logic
-
-### Log Conditions
-Add logging to understand which path is taken:
-```javascript
-console.log("Customer tier:", customer.tier);
-console.log("Order value:", order.total);
-console.log("Route selected:", selectedRoute);
-```
-
-### Test All Branches
-Use Step Simulation to test each possible route with different inputs.
-
-### Default Path Tracking
-Monitor how often the default path is used - high usage may indicate missing conditions.
-
-## Performance Considerations
-
-- **Simple Conditions**: Keep condition logic fast
-- **Avoid External Calls**: Don't make API calls within router conditions
-- **Limit Nesting**: Deep router nesting can be hard to maintain
+- Next step variable: `eligibility`
+- Accepted next steps: `approved_flow`, `review_flow`
+- Fallback step: `denied_flow`
 
 ## Related Pages
 
-- [JavaScript Code](/platform/steps/javascript-code) - Complex routing logic
+- [JavaScript Code](/platform/steps/javascript-code) - Calculate routing logic
+- [LLM Step](/platform/steps/llm-step) - Classify intent for routing
 - [Call SmartAgent](/platform/steps/call-smartagent) - Route to different SmartAgents
-- [LLM Step](/platform/steps/llm-step) - AI-driven routing decisions
-- [Testing Suite](/platform/evals) - Test routing scenarios

@@ -4,205 +4,145 @@ description: Execute custom logic to manipulate data and control flow
 icon: "code"
 ---
 
-The **JavaScript Code** step executes logic to manipulate data, perform arithmetic, or apply conditional logic within your SmartAgent workflows.
+The **JavaScript Code** step executes custom JavaScript logic to manipulate data, perform calculations, or apply conditional logic within your SmartAgent workflows.
 
 ## Overview
 
-The JavaScript Code step provides the flexibility to implement custom business logic, data transformations, and conditional operations that aren't covered by other step types.
+The JavaScript Code step provides flexibility to implement custom business logic, data transformations, and conditional operations. Write standard JavaScript (ES6+) that can access variables from previous steps and return results to be used in subsequent steps.
 
-## Capabilities
+## Settings
 
-### Data Transformation
-Manipulate and reshape data from previous steps.
+### JS Code
 
-**Examples:**
-- Convert date formats
-- Combine multiple fields
-- Parse complex strings
-- Restructure objects
+Write JavaScript code that will be executed during the workflow. The last statement evaluated is returned as the step output.
 
-### Mathematical Calculations
-Perform arithmetic operations and numerical computations.
+**Available variables:**
+- Access any variable from previous steps or conversation context
+- Use standard JavaScript syntax and operators
+- The last expression is automatically returned
 
-**Examples:**
-- Calculate totals and subtotals
-- Apply discounts and tax
-- Compute averages and statistics
-- Financial calculations
-
-### Conditional Branching
-Implement complex conditional logic.
-
-**Examples:**
-- Multi-condition decision trees
-- Business rule evaluation
-- Eligibility checks
-- Priority calculations
-
-### String Manipulation
-Process and format text data.
-
-**Examples:**
-- Format phone numbers
-- Clean and normalize addresses
-- Generate dynamic messages
-- Extract substrings
-
-## Syntax and Environment
-
-### Supported JavaScript
-Standard ES6+ JavaScript syntax is supported.
-
-### Available Variables
-Access data from:
-- Previous step outputs
-- Conversation context
-- Background variables
-- Input parameters
-
-### Return Values
-The last expression evaluated is returned as the step output.
-
-## Example Code Snippets
-
-### Calculate Order Total
+**Example - Calculate order total:**
 ```javascript
 const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 const tax = subtotal * 0.08;
 const shipping = subtotal > 50 ? 0 : 5.99;
-const total = subtotal + tax + shipping;
 
-return {
-  subtotal,
-  tax,
-  shipping,
-  total
-};
+subtotal + tax + shipping
 ```
 
-### Format Customer Name
+**Example - Determine priority:**
 ```javascript
-const firstName = customer.first_name.trim();
-const lastName = customer.last_name.trim();
-const fullName = `${firstName} ${lastName}`;
-
-return {
-  fullName,
-  greeting: `Hello ${firstName}!`
-};
-```
-
-### Determine Priority Level
-```javascript
-const isPremium = customer.tier === 'premium';
+const isPremium = customer_tier === 'premium';
 const isUrgent = message.toLowerCase().includes('urgent');
-const orderValue = order.total;
 
-let priority;
 if (isPremium && isUrgent) {
-  priority = 'critical';
-} else if (isPremium || orderValue > 500) {
-  priority = 'high';
-} else if (isUrgent) {
-  priority = 'medium';
+  'critical'
+} else if (isPremium) {
+  'high'
 } else {
-  priority = 'normal';
+  'normal'
 }
-
-return { priority };
 ```
 
-### Parse and Validate Email
+**Example - Format data:**
 ```javascript
-const email = input.email.toLowerCase().trim();
-const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const domain = email.split('@')[1];
+const fullName = `${first_name} ${last_name}`.trim();
+const formattedPhone = phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
-return {
-  email,
-  isValid,
-  domain,
-  isBusinessEmail: !['gmail.com', 'yahoo.com', 'hotmail.com'].includes(domain)
-};
+{ fullName, formattedPhone }
 ```
 
-## Best Practices
+## Outputs
 
-1. **Keep It Simple** - Break complex logic into multiple steps
-2. **Handle Errors** - Use try-catch for operations that might fail
-3. **Validate Inputs** - Check that required data exists before using it
-4. **Comment Your Code** - Explain non-obvious logic
-5. **Return Structured Data** - Make outputs easy to use in subsequent steps
+### Output
+
+Name of the variable where the JavaScript output will be saved. Can be referenced in subsequent steps using `{variable_name}`.
+
+**Default:** `js_output`
+
+### Next Steps
+
+The step(s) to execute after this step completes. Select from existing steps or enter a custom step name using variables.
+
+### Send to Copilot
+
+When enabled, sends the output to the Copilot app for agent review before sending to the user.
+
+### Send Automatically
+
+When enabled, sends the output directly to the user without requiring confirmation.
+
+## Advanced Settings
+
+### Follow Up Steps
+
+Steps that run in parallel after this step completes. Use this for actions that don't need to block the workflow, such as logging or analytics.
+
+### Background Steps
+
+Steps that run in the background while the main workflow continues. Useful for long-running tasks that shouldn't delay the response.
+
+### Write Outputs to Background Context
+
+When enabled, saves the step output to the background context, making it available to all subsequent steps in the conversation without explicitly passing it.
 
 ## Common Use Cases
+
+### Data Transformation
+Convert data formats, combine fields, or restructure objects.
+
+```javascript
+const orderDate = new Date(order_timestamp).toLocaleDateString();
+const status = order_status.toUpperCase();
+
+`Order placed on ${orderDate} is ${status}`
+```
+
+### Business Logic
+Implement organization-specific rules and calculations.
+
+```javascript
+const canReturn =
+  order_date > Date.now() - (30 * 24 * 60 * 60 * 1000) && // Within 30 days
+  !is_final_sale &&
+  order_status === 'delivered';
+
+canReturn
+```
+
+### Conditional Evaluation
+Create routing variables based on complex conditions.
+
+```javascript
+let flow;
+if (order_value > 1000 && customer_tier === 'vip') {
+  flow = 'white_glove_service';
+} else if (order_value > 500) {
+  flow = 'priority_handling';
+} else {
+  flow = 'standard_process';
+}
+
+flow
+```
 
 ### Data Validation
 Check that data meets requirements before proceeding.
 
 ```javascript
 const errors = [];
-if (!customer.email) errors.push('Email required');
-if (!customer.phone) errors.push('Phone required');
-if (order.total < 0) errors.push('Invalid order total');
+if (!customer_email) errors.push('Email required');
+if (!customer_phone) errors.push('Phone required');
+if (order_total < 0) errors.push('Invalid order total');
 
-return {
+{
   isValid: errors.length === 0,
-  errors
-};
-```
-
-### Business Rules
-Implement organization-specific logic.
-
-```javascript
-const canReturn =
-  order.date > Date.now() - (30 * 24 * 60 * 60 * 1000) && // Within 30 days
-  !order.final_sale && // Not final sale
-  order.status === 'delivered'; // Already delivered
-
-return { canReturn };
-```
-
-### Dynamic Content Generation
-Create customized messages based on context.
-
-```javascript
-const timeOfDay = new Date().getHours();
-let greeting;
-if (timeOfDay < 12) greeting = 'Good morning';
-else if (timeOfDay < 18) greeting = 'Good afternoon';
-else greeting = 'Good evening';
-
-return {
-  greeting: `${greeting}, ${customer.firstName}!`
-};
-```
-
-## Error Handling
-
-### Try-Catch Blocks
-```javascript
-try {
-  const result = complexOperation(data);
-  return { success: true, result };
-} catch (error) {
-  return { success: false, error: error.message };
+  errors: errors.join(', ')
 }
 ```
-
-### Null Safety
-```javascript
-const orderTotal = order?.items?.reduce((sum, item) => sum + item.price, 0) ?? 0;
-```
-
-## Limitations
-
-- **Execution Time**: Keep operations fast to avoid timeouts
-- **External APIs**: Use REST API Call step for external requests
-- **Security**: Cannot access file system or make network calls directly
 
 ## Related Pages
 
 - [Structured Output](/platform/steps/structured-output) - Transform data into defined formats
-- [Router](/platform/steps/router) - Route based on conditions
+- [Router](/platform/steps/router) - Route based on calculated values
 - [LLM Step](/platform/steps/llm-step) - Generate AI-driven responses

@@ -1,163 +1,148 @@
 ---
 title: Structured Output
-description: Convert information into controlled, structured formats
+description: Convert data into controlled, structured formats
 icon: "brackets-curly"
 ---
 
-The **Structured Output** step converts information into a controlled, structured format for use across systems, in API calls, or as conversation background data.
+The **Structured Output** step uses AI to extract and transform unstructured data into well-defined, structured JSON formats.
 
 ## Overview
 
-Structured Output takes unstructured or semi-structured data from conversations and transforms it into well-defined, predictable formats that can be consumed by APIs, databases, and other systems.
+The Structured Output step analyzes text (like customer messages or documents) and extracts specific information into a predefined schema. This is useful for parsing customer requests, extracting entities, or converting free-form text into structured data that can be used in subsequent steps or API calls.
 
-## Use Cases
+## Settings
 
-### Format Data for API Consumption
-Transform conversation data into JSON, XML, or other formats required by external APIs.
+### LLM
 
-**Example:**
-Convert "I need to return my blue shirt, size medium, order #12345" into:
-```json
-{
-  "action": "return",
-  "item": "shirt",
-  "color": "blue",
-  "size": "medium",
-  "order_id": "12345"
-}
-```
+Select the LLM provider for this step. Only providers that support structured output are available.
 
-### Create Consistent Data Structures
-Ensure data follows a predictable schema regardless of how customers phrase their requests.
+**Supported providers:**
+- OpenAI
+- Azure
 
-**Benefits:**
-- Reliable downstream processing
-- Easier integration with other systems
-- Reduced parsing errors
+### LLM Model
 
-### Extract Structured Information from Conversations
-Pull specific fields from natural language into structured records.
+Choose the specific model to use. Recommended models provide the best balance of cost and performance.
+
+**Recommended:** gpt-4o-mini (OpenAI)
+
+### User Prompt
+
+The prompt that instructs the LLM on what information to extract and how to structure it. Include relevant context and variables.
 
 **Example:**
-Extract customer information:
+```
+Extract meeting details from the following text:
+
+{customer_message}
+
+Identify the meeting name, date, and participants.
+```
+
+### Schema Properties
+
+Define the structure of the output JSON object. Each property specifies a field name and its data type.
+
+**Property format:**
 ```json
 {
-  "name": "John Smith",
-  "email": "john@example.com",
-  "phone": "555-0123",
-  "preferred_contact": "email"
+  "type": "string|number|boolean|array|object"
 }
 ```
 
-## Configuration
-
-### Output Schema
-Define the structure you want the output to follow:
-- Field names
-- Data types
-- Required vs. optional fields
-- Validation rules
-
-### Source Data
-Specify where to pull data from:
-- Current message
-- Conversation history
-- Previous step outputs
-- Background context
-
-### Format Type
-Choose the output format:
-- JSON
-- XML
-- CSV
-- Custom formats
-
-## How It Works
-
-1. **Input**: Receives unstructured or semi-structured data
-2. **Parse**: Extracts relevant information using AI
-3. **Transform**: Maps extracted data to defined schema
-4. **Validate**: Ensures output matches specified structure
-5. **Output**: Returns structured data for downstream use
-
-## Benefits
-
-**Reliability**
-- Predictable output format
-- Consistent field names
-- Type-safe data
-
-**Integration**
-- Easy to consume by APIs
-- Compatible with databases
-- Works with automation tools
-
-**Flexibility**
-- Adapts to various input formats
-- Handles missing fields gracefully
-- Supports complex nested structures
-
-## Example Schemas
-
-### Order Information
+**Example schema:**
 ```json
-{
-  "order_id": "string",
-  "status": "pending|shipped|delivered",
-  "items": [{
-    "sku": "string",
-    "quantity": number,
-    "price": number
-  }],
-  "total": number
-}
+meeting_name: { "type": "string" }
+date: { "type": "string" }
+participants: { "type": "array", "items": { "type": "string" } }
 ```
 
-### Customer Support Ticket
+The LLM will extract data matching this schema from the input text.
+
+## Output
+
+### Spread Result
+
+When enabled, each schema property is saved as a separate variable in the background context instead of a single nested object.
+
+**Example:**
+- Disabled: Access via `{output.meeting_name}`
+- Enabled: Access via `{meeting_name}`
+
+### Outputs
+
+Name of the variable where the structured output will be saved. Can be referenced in subsequent steps.
+
+**Default:** `structured_output`
+
+### Next Steps
+
+The step(s) to execute after this step completes. Select from existing steps or enter a custom step name using variables.
+
+## Advanced Options
+
+### Follow Up Steps
+
+Steps that run in parallel after this step completes. Use this for actions that don't need to block the workflow, such as logging or analytics.
+
+### Background Steps
+
+Steps that run in the background while the main workflow continues. Useful for long-running tasks that shouldn't delay the response.
+
+### Write Outputs to BG Context
+
+When enabled, saves the step output to the background context, making it available to all subsequent steps in the conversation without explicitly passing it.
+
+### System Prompt
+
+Advanced system-level instructions for the LLM. Generally not needed for standard use cases.
+
+## Common Use Cases
+
+### Extract Customer Intent and Details
+Parse customer messages to identify what they want and relevant details.
+
+**Schema:**
 ```json
-{
-  "ticket_id": "string",
-  "category": "string",
-  "priority": "low|medium|high",
-  "description": "string",
-  "customer_id": "string",
-  "created_at": "ISO 8601 timestamp"
-}
+intent: { "type": "string" }
+order_number: { "type": "string" }
+urgency: { "type": "string" }
 ```
 
-## Best Practices
+### Parse Form Data
+Convert free-text responses into structured fields.
 
-1. **Define Clear Schemas** - Document expected structure thoroughly
-2. **Handle Missing Data** - Plan for optional fields
-3. **Validate Outputs** - Check that generated structures are valid
-4. **Use Type Safety** - Specify data types for each field
-5. **Test Edge Cases** - Verify behavior with incomplete inputs
+**Schema:**
+```json
+full_name: { "type": "string" }
+email: { "type": "string" }
+phone: { "type": "string" }
+preferred_contact_method: { "type": "string" }
+```
 
-## Common Patterns
+### Extract Meeting Information
+Pull structured data from meeting descriptions.
 
-### Data Enrichment
-Combine conversation data with existing records to create enriched outputs.
+**Schema:**
+```json
+meeting_title: { "type": "string" }
+date: { "type": "string" }
+time: { "type": "string" }
+attendees: { "type": "array", "items": { "type": "string" } }
+```
 
-### Multi-Step Extraction
-Use multiple Structured Output steps to build complex hierarchical data.
+### Classify and Tag Content
+Categorize and tag customer inquiries or documents.
 
-### Validation Pipeline
-Follow Structured Output with validation logic to ensure data quality.
-
-## Error Handling
-
-**Missing Required Fields**
-- Define default values
-- Trigger fallback workflows
-- Request clarification from customer
-
-**Invalid Data Types**
-- Apply type coercion when safe
-- Reject and log invalid inputs
-- Provide clear error messages
+**Schema:**
+```json
+category: { "type": "string" }
+priority: { "type": "string" }
+tags: { "type": "array", "items": { "type": "string" } }
+```
 
 ## Related Pages
 
-- [JavaScript Code](/platform/steps/javascript-code) - Further manipulate structured data
+- [LLM Step](/platform/steps/llm-step) - Generate AI-driven responses
+- [JavaScript Code](/platform/steps/javascript-code) - Process structured data
 - [REST API Call](/platform/steps/rest-api-call) - Send structured data to external systems
-- [LLM Step](/platform/steps/llm-step) - Generate the initial unstructured data

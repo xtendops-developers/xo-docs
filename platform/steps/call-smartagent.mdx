@@ -8,90 +8,92 @@ The **Call SmartAgent** step allows one SmartAgent to call another, enabling mod
 
 ## Overview
 
-By allowing SmartAgents to call other SmartAgents, you can break complex workflows into manageable, reusable components. This promotes modularity and makes it easier to maintain and update individual pieces of functionality.
+By calling other SmartAgents, you can break complex workflows into manageable, reusable components. Each SmartAgent can focus on a specific task (e.g., order lookup, returns processing, billing inquiries) and be called from multiple parent workflows.
 
-## Use Cases
+## Settings
 
-### Break Complex Workflows into Manageable Sub-Agents
-Instead of building one massive SmartAgent, break it into specialized sub-agents that handle specific tasks.
+### SmartAgent
+
+Select which SmartAgent to call from your account. This is the main SmartAgent that will be invoked.
+
+### SmartAgent Version
+
+Choose a specific version of the selected SmartAgent to call.
+
+**Options:**
+- **Use currently active version** - Always calls the production version currently marked as active
+- **Select specific version** - Calls a specific version number (useful for testing draft versions)
+
+**Best practice:** Enable "Use currently active version" for production workflows so updates to the called SmartAgent automatically take effect without modifying the parent workflow.
+
+### Inputs
+
+JSON object containing input variables to pass to the called SmartAgent. These variables become available to the called SmartAgent's steps.
+
+**Format:** JSON key-value pairs
 
 **Example:**
-- Main SmartAgent: Customer Service Hub
-- Sub-Agent 1: Order Status Lookup
-- Sub-Agent 2: Return Processing
-- Sub-Agent 3: Billing Inquiries
+```json
+{
+  "order_id": "{order_number}",
+  "customer_email": "{email}",
+  "request_type": "status_check"
+}
+```
 
-### Reuse Common Logic Across Multiple SmartAgents
-Create a library of reusable SmartAgents that can be called from multiple parent workflows.
+**Dynamic variables:** Use `{variable_name}` syntax to pass values from the current workflow.
+
+### Mark as Escalated
+
+When enabled, designates the called Copilot SmartAgent as the new handler for the conversation. The Copilot agent will be invoked immediately when joining and on subsequent messages.
+
+**Note:** This option is only available when calling Copilot type SmartAgents from Automation SmartAgents.
+
+## Outputs
+
+### Outputs
+
+Name of the variable where the called SmartAgent's output will be saved. Can be referenced in subsequent steps using `{variable_name}`.
+
+### Next Steps
+
+The step(s) to execute after the called SmartAgent completes. Select from existing steps or enter a custom step name using variables.
+
+## Advanced Settings
+
+### Write Outputs to BG Context
+
+When enabled, saves the called SmartAgent's output to the background context, making it available to all subsequent steps in the conversation without explicitly passing it.
+
+### Follow Up Steps
+
+Steps that run in parallel after this step completes. Use this for actions that don't need to block the workflow, such as logging or analytics.
+
+### Background Steps
+
+Steps that run in the background while the main workflow continues. Useful for long-running tasks that shouldn't delay the response.
+
+## Common Use Cases
+
+### Modular Workflow Design
+Break a complex SmartAgent into specialized sub-agents.
 
 **Example:**
-- Authentication SmartAgent (called by multiple workflows)
+- Main: Customer Service Hub
+- Sub-agents: Order Status Lookup, Return Processing, Billing Inquiries
+
+### Reusable Components
+Create a library of SmartAgents that can be called from multiple workflows.
+
+**Examples:**
 - Address Validation SmartAgent
 - Payment Processing SmartAgent
+- Customer Authentication SmartAgent
 
-### Delegate Specific Tasks to Specialized Agents
-Route specific intents or conversation stages to specialized SmartAgents that excel at those tasks.
+### Specialized Task Delegation
+Route specific tasks to SmartAgents with specialized knowledge and integrations.
 
-**Example:**
-When a customer asks about technical support, delegate to a Technical Support SmartAgent with specialized knowledge and integrations.
-
-## How It Works
-
-1. **Configure the Step**: Select which SmartAgent to call
-2. **Pass Context**: Define what data to pass to the sub-agent
-3. **Execute**: The called SmartAgent runs with the provided context
-4. **Return Results**: The sub-agent returns results to the calling SmartAgent
-5. **Continue Workflow**: The main workflow continues with the results
-
-## Configuration Options
-
-### SmartAgent Selection
-Choose which SmartAgent to call from your account.
-
-### Input Mapping
-Map variables from the current conversation context to the called SmartAgent's inputs.
-
-### Output Handling
-Define how to handle the results returned from the called SmartAgent.
-
-## Benefits
-
-**Modularity**
-- Build once, use many times
-- Easier to test individual components
-- Simpler maintenance and updates
-
-**Clarity**
-- Each SmartAgent has a clear, focused purpose
-- Easier to understand and debug
-- Better documentation
-
-**Flexibility**
-- Mix and match SmartAgents for different use cases
-- Update one component without affecting others
-- Scale specific components independently
-
-## Best Practices
-
-1. **Keep Sub-Agents Focused** - Each called SmartAgent should have one clear purpose
-2. **Document Inputs/Outputs** - Clearly define what data flows in and out
-3. **Handle Errors** - Plan for cases where the called SmartAgent fails
-4. **Avoid Deep Nesting** - Don't create overly complex call chains
-5. **Test Independently** - Test each SmartAgent on its own before integrating
-
-## Example Workflow
-
-```
-Main SmartAgent: Customer Inquiry Handler
-  ↓
-  Check Intent
-  ↓
-  If order_status → Call "Order Status SmartAgent"
-  If return_request → Call "Returns SmartAgent"
-  If billing_question → Call "Billing SmartAgent"
-  ↓
-  Format and return response
-```
+**Example:** When a customer asks about technical support, delegate to a Technical Support SmartAgent that has access to specialized knowledge bases and troubleshooting tools.
 
 ## Related Pages
 
