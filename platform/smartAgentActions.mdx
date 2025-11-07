@@ -15,55 +15,68 @@ Quick Actions enable you to create focused, purpose-built workflows that can be 
 Quick Actions can be initiated in multiple ways:
 
 ### Manual Triggers
+
 - Agents can trigger Quick Actions directly from the Co-Pilot App
 - SmartAgents can call Quick Actions programmatically
 
 ### Timer-Based Triggers
+
 - **After Agent Message** - Trigger 1 minute after an agent sends a message
 - **After Inactivity** - Trigger after 3 minutes of customer inactivity
 - **Custom Timers** - Configure specific timing conditions
 
 ### Programmatic Triggers
+
 - Invoke Quick Actions from within SmartAgent workflows
 - Call from external systems via API
 
 ## Common Use Cases
 
 ### Response Suggestions
+
 Generate suggested responses for human agents to review and send.
 
 **Example:**
+
 - Agent receives a complex customer inquiry
 - Quick Action analyzes the message and suggests a response
 - Agent reviews, edits, and sends
 
 ### Tone Adjustment
+
 Rephrase AI-generated responses to match desired tone.
 
 **Example:**
+
 - AI generates a response that seems too formal
 - Agent triggers "Make Friendlier" Quick Action
 - Response is rephrased with emojis and casual language
 
 ### CRM Updates
+
 Update external systems like Salesforce automatically.
 
 **Example:**
+
 - Conversation reaches resolution
 - Quick Action updates case status in CRM
 - Logs conversation summary and tags
 
 ### Inactivity Follow-ups
+
 Send automated follow-up messages after periods of customer silence.
 
 **Example:**
+
 - Customer hasn't responded in 3 minutes
 - Quick Action triggers: "Are you still there? Let me know if you need anything else!"
 
 ### Data Extraction
+
 Extract and structure information from conversations.
 
 **Example:**
+
 - Extract order number, issue type, and priority
 - Format as structured data for downstream systems
 - Update tracking dashboards
@@ -73,6 +86,7 @@ Extract and structure information from conversations.
 Quick Actions are configured in the **SmartAction Configuration** tab of the SmartAgent Builder.
 
 **Configuration Options:**
+
 - **Name** - Descriptive name for the action
 - **Trigger Type** - Manual, timer-based, or programmatic
 - **Workflow** - Chain of steps that execute when triggered
@@ -101,6 +115,7 @@ Quick Actions are directly accessible from the Co-Pilot App, allowing human agen
 ## Purpose
 
 Quick Actions provide tools for SmartAgents and human agents to:
+
 - Improve efficiency
 - Maintain consistency
 - Enhance response quality

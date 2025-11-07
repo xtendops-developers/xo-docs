@@ -1,5 +1,5 @@
 ---
-title: SmartAgent Builder
+title: Builder
 description: The primary workspace for creating and modifying SmartAgents
 icon: "wand-magic-sparkles"
 ---
@@ -8,42 +8,28 @@ The **SmartAgent Builder** is the primary workspace for creating and modifying S
 
 ## Overview
 
-The SmartAgent Builder is organized into three main tabs, each serving a specific purpose in the agent development lifecycle.
+**SmartAgent Builder** is the primary workspace for creating and modifying SmartAgents. It provides a visual canvas where you can configure workflows, connect steps, and deploy new versions.
 
-<img src="/images/screenshots/smartagent-builder-canvas.png" alt="SmartAgent Builder Canvas" />
-
-## Tabs
-
-### SmartAgent Profile
-
-An overview of the SmartAgent currently being viewed, including version information, deployment status, and key metrics.
-
-[Learn more about SmartAgent Profile →](/platform/smartAgentProfile)
-
-### SmartAgent Builder
-
-The canvas view where steps are configured and versions are deployed. This is where you'll spend most of your time building and refining your SmartAgent workflows.
-
+<img
+  src="/images/screenshots/smartagent-builder-canvas.png"
+  alt="SmartAgent Builder Canvas"
+/>
 **Key Features:**
+
 - Visual workflow canvas
-- Drag-and-drop step configuration
+- Step configuration
 - Step connection management
 - Version control and deployment
 - Testing capabilities (Step Simulation and Play All)
 
-[Learn more about Steps →](/platform/smartAgentSteps)
-
-### SmartAction Configuration
-
-A section for modifying and editing quick actions available within a SmartAgent. Quick Actions are reusable, task-specific workflows that can be triggered by agents, SmartAgents, or timers.
-
-[Learn more about SmartActions →](/platform/smartAgentActions)
+The builder utilizes the [Steps](/platform/smartAgentSteps) library to create workflows.
 
 ## Building Workflows
 
 SmartAgent workflows are built by connecting modular steps together. Each step performs a specific function, and together they form a complete conversation flow.
 
 The builder provides:
+
 - **Chain View** - Sequential list of steps in the workflow
 - **Canvas View** - Visual representation of step connections and flow
 - **Version Management** - Create, test, and deploy different versions
