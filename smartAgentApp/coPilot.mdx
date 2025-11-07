@@ -10,7 +10,10 @@ The **Co-Pilot App** is the interface agents use when working with a Co-Pilot Sm
 
 The Co-Pilot App streamlines agent workflows, enhances AI-assisted messaging, and provides quick access to contextual tools. It operates as a side-by-side assistant, suggesting responses that agents can review, edit, and send.
 
-<img src="/images/screenshots/copilot-app-interface.png" alt="Co-Pilot App Interface" />
+<img
+  src="/smartAgentApp/images/copilot-app-interface.png"
+  alt="Co-Pilot App Interface"
+/>
 
 ## Interface Components
 
@@ -19,6 +22,7 @@ The Co-Pilot App streamlines agent workflows, enhances AI-assisted messaging, an
 Displays dynamic, high-priority information to help agents make informed decisions quickly.
 
 **Content Types:**
+
 - Customer information
 - Order details
 - Conversation history summary
@@ -33,12 +37,14 @@ Content swaps based on conversation context, showing what's most relevant at eac
 Shows the AI-suggested response that agents can edit before sending.
 
 **Features:**
+
 - Full text editing capabilities
 - Formatting options (bold, italic, lists)
 - Character/word count
 - Preview mode
 
 **Agent Actions:**
+
 - Edit directly in the window
 - Accept as-is
 - Request regeneration
@@ -52,12 +58,15 @@ Agents ensure accuracy, tone, and compliance with guidelines before sending.
 Allows agents to trigger specific Quick Actions via typed commands.
 
 **Example Usage:**
+
 ```
 /friendlier
 ```
+
 Triggers a Quick Action to rephrase the response in a friendlier tone with emojis.
 
 **Common Commands:**
+
 - `/friendlier` - Add friendly tone and emojis
 - `/formal` - Make more professional
 - `/summarize` - Condense the response
@@ -71,11 +80,13 @@ Triggers a Quick Action to rephrase the response in a friendlier tone with emoji
 Agents can directly trigger configured Quick Actions from the app, including timer-based responses.
 
 **Access Methods:**
+
 - Command line (text-based)
 - Button shortcuts
 - Context menu
 
 **Capabilities:**
+
 - Response suggestions
 - CRM updates
 - Knowledge lookups
@@ -84,39 +95,48 @@ Agents can directly trigger configured Quick Actions from the app, including tim
 ### Message Controls
 
 #### Regenerate
+
 Request a new AI-generated draft with different wording or approach.
 
 **Use When:**
+
 - Initial suggestion misses the mark
 - Want alternative phrasing
 - Need different tone
 
 #### Copy
+
 Copy the message to clipboard for use elsewhere.
 
 **Use Cases:**
+
 - Paste into external systems
 - Save for templates
 - Share with team members
 
 #### Feedback
+
 Provide thumbs-up/thumbs-down feedback on the AI suggestion.
 
 **Feedback Types:**
+
 - **Thumbs Up** - AI suggestion was helpful
 - **Thumbs Down** - AI suggestion needs improvement
 - **Reason** - Categorized reason for feedback
 - **Comment** - Optional detailed explanation
 
 **Impact:**
+
 - Integrated into BI platform for reporting
 - Informs SmartAgent improvements
 - Tracks quality trends
 
 #### Send
+
 Finalize and send the response to the customer.
 
 **Workflow:**
+
 1. Review AI suggestion
 2. Make any necessary edits
 3. Verify accuracy and tone
@@ -126,16 +146,19 @@ Finalize and send the response to the customer.
 ## Integration with External Platforms
 
 ### Gladly
+
 - Embedded in conversation sidebar
 - Access to customer timeline
 - Integrated contact history
 
 ### Salesforce Service Cloud
+
 - Side panel integration
 - Case information display
 - CRM data access
 
 ### Zendesk
+
 - Ticket sidebar app
 - Access to ticket fields
 - Customer context
@@ -143,29 +166,38 @@ Finalize and send the response to the customer.
 ## Agent Workflow
 
 ### 1. Customer Message Arrives
+
 Agent receives customer inquiry in their platform.
 
 ### 2. AI Generates Suggestion
+
 Co-Pilot SmartAgent processes the message and generates a suggested response.
 
 ### 3. Agent Reviews
+
 Agent sees:
+
 - AI-suggested response in Edit Window
 - Relevant context in Summary Section
 - Available Quick Actions
 
 ### 4. Agent Edits (If Needed)
+
 Agent may:
+
 - Accept as-is
 - Make minor edits
 - Trigger Quick Actions to modify
 - Regenerate entirely
 
 ### 5. Agent Sends
+
 After review, agent sends the final message to the customer.
 
 ### 6. Feedback Collected
+
 System calculates **Assist Score** comparing:
+
 - AI-generated draft
 - Final sent message
 
@@ -176,11 +208,13 @@ System calculates **Assist Score** comparing:
 Measures how closely the AI-generated response matches the final message sent by the agent.
 
 **High Score:**
+
 - Agent sent AI suggestion with minimal changes
 - Indicates high AI quality
 - Reduces agent effort
 
 **Low Score:**
+
 - Agent made significant edits
 - AI suggestion may need improvement
 - Opportunity for SmartAgent optimization
@@ -188,6 +222,7 @@ Measures how closely the AI-generated response matches the final message sent by
 ### Efficiency Gains
 
 **Metrics Tracked:**
+
 - Average handle time (AHT) reduction
 - Messages per hour increase
 - First contact resolution improvement
@@ -196,6 +231,7 @@ Measures how closely the AI-generated response matches the final message sent by
 ## Benefits
 
 ### For Agents
+
 - Faster response times
 - Reduced mental load
 - Consistent quality
@@ -203,12 +239,14 @@ Measures how closely the AI-generated response matches the final message sent by
 - Tone guidance
 
 ### For Customers
+
 - Quicker responses
 - Accurate information
 - Consistent experience
 - Quality interactions
 
 ### For Organizations
+
 - Improved efficiency
 - Reduced training time
 - Quality consistency
@@ -230,7 +268,6 @@ Co-Pilot App access is controlled via the **Agent** role:
 - Access limited to the Co-Pilot App only
 - No access to SmartAgent Builder or other platform features
 - Permissions granted within their external system (Gladly, Salesforce, etc.)
-
 
 ## Related Pages
 
