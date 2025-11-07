@@ -8,7 +8,7 @@ The **JavaScript Code** step executes custom JavaScript logic to manipulate data
 
 ## Overview
 
-The JavaScript Code step provides flexibility to implement custom business logic, data transformations, and conditional operations. Write standard JavaScript (ES6+) that can access variables from previous steps and return results to be used in subsequent steps.
+The JavaScript Code step securely runs vanilla JavaScript in a VM. It provides flexibility to implement custom business logic, data transformations, and conditional operations. Write standard JavaScript (ES6+) that can access variables from previous steps and return results to be used in subsequent steps.
 
 <div align="center">
   ![JavaScript Code Step](/images/steps/js-step.png)
@@ -18,12 +18,11 @@ The JavaScript Code step provides flexibility to implement custom business logic
 
 ### JS Code
 
-Write JavaScript code that will be executed during the workflow. The last statement evaluated is returned as the step output.
+Write JavaScript code that will be executed during the workflow. **The last expression is automatically returned** as the step output.
 
 **Available variables:**
 - Access any variable from previous steps or conversation context
 - Use standard JavaScript syntax and operators
-- The last expression is automatically returned
 
 **Example - Calculate order total:**
 ```javascript
@@ -114,20 +113,20 @@ const canReturn =
 canReturn
 ```
 
-### Conditional Evaluation
-Create routing variables based on complex conditions.
+### Conditional Logic for Routing
+Use conditional logic to determine the next step for the [Router step](/platform/steps/router).
 
 ```javascript
-let flow;
-if (order_value > 1000 && customer_tier === 'vip') {
-  flow = 'white_glove_service';
-} else if (order_value > 500) {
-  flow = 'priority_handling';
+let next_step;
+if (issue_resolved && customer_satisfied) {
+  next_step = 'closing';
+} else if (needs_escalation) {
+  next_step = 'escalation';
 } else {
-  flow = 'standard_process';
+  next_step = 'issue_resolution';
 }
 
-flow
+next_step
 ```
 
 ### Data Validation
