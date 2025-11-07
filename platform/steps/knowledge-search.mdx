@@ -4,7 +4,7 @@ description: Retrieve articles from your knowledge base
 icon: "book-open-reader"
 ---
 
-The **Knowledge Search** step retrieves relevant articles from your knowledge base using semantic similarity search.
+The **Knowledge Search** step retrieves relevant articles from your knowledge base using semantic similarity search and filtering.
 
 ## Overview
 
@@ -23,6 +23,7 @@ Knowledge Search enables SmartAgents to dynamically retrieve relevant informatio
 The knowledge base namespace to search within. Each namespace contains a collection of related articles.
 
 **Example namespaces:**
+
 - Product documentation
 - Company policies
 - Troubleshooting guides
@@ -51,6 +52,7 @@ Name of the variable where the retrieved articles will be saved. Can be referenc
 **Default:** `knowledge_results`
 
 **Using retrieved knowledge:**
+
 ```
 Answer the customer's question using these knowledge articles:
 
@@ -76,6 +78,7 @@ Metadata filters to narrow search results. Provide comma-separated key-value pai
 **Format:** `key1, value1, key2, value2`
 
 **Example:**
+
 ```
 category, Returns, priority, high
 ```
@@ -85,6 +88,7 @@ This filters for articles where `category = "Returns"` AND `priority = "high"`.
 **Dynamic variables:** Use `@variable_name` to filter by variable values.
 
 **Example:**
+
 ```
 category, Reports, intent, @intentVar
 ```
@@ -94,6 +98,7 @@ category, Reports, intent, @intentVar
 Broader filter used when the primary search returns no results. Uses the same key-value format as the main filter but should be less restrictive.
 
 **Example:**
+
 ```
 category, General
 ```
@@ -115,35 +120,43 @@ When enabled, saves the retrieved articles to the background context, making the
 ## Common Use Cases
 
 ### Product Support
+
 Retrieve product documentation to help answer customer questions.
 
 **Configuration:**
+
 - Namespace: `product-docs`
 - Search term: `customer_message`
 - Return count: 3
 
 ### Troubleshooting
+
 Find relevant solutions for customer issues.
 
 **Configuration:**
+
 - Namespace: `troubleshooting`
 - Search term: `issue_description`
 - Filter: `product, @product_name`
 - Return count: 5
 
 ### Policy Questions
+
 Retrieve company policies to provide accurate information.
 
 **Configuration:**
+
 - Namespace: `policies`
 - Search term: `customer_message`
 - Filter: `type, policy`
 - Return count: 2
 
 ### FAQ Responses
+
 Search frequently asked questions to quickly resolve common inquiries.
 
 **Configuration:**
+
 - Namespace: `faq`
 - Search term: `customer_message`
 - Return count: 3

@@ -42,7 +42,7 @@
             ]
           },
           {
-            "group": "O Step Types",
+            "group": "Step Types",
             "pages": [
               "platform/smartAgentSteps",
               "platform/steps/llm-step",
