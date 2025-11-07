@@ -1,5 +1,5 @@
 ---
-title: Supported Integrations
+title: Supported Iframes
 description: Embed Co-Pilot in your existing support platforms
 icon: "plug"
 ---
@@ -12,9 +12,167 @@ Co-Pilot can be embedded directly into your existing customer support platforms,
 
 Embed Co-Pilot within Zendesk to provide your support agents with real-time suggested responses as they handle customer inquiries.
 
+<Accordion title="Zendesk Installation Instructions">
+
+This guide is provided by XtendOps to assist you in implementing Zendesk App. These apps facilitate streamlined customer interactions across various digital touchpoints. Our goal is to simplify the integration process for your team, offering clear steps to create, customize, and deploy them effectively within your platforms.
+
+#### Requirements
+
+- **Zendesk Subdomain** - Example: "xtendops1862" from `xtendops1862.zendesk.com`
+- **Access to the Zendesk environment**
+  - Email and password of an admin user
+  - OR Email and API token of an admin user
+- **A clientkey from XtendOps**
+- **A zip file of the XtendOps app**
+
+#### Step 1: Receive Materials from XtendOps
+
+Obtain the following from XtendOps:
+
+- `clientkey`
+- Zip file of the XtendOps app
+
+#### Step 2: Install ZCLI
+
+Install the Zendesk CLI tool:
+
+```bash
+npm install @zendesk/zcli -g
+```
+
+For more information, visit the [ZCLI documentation](https://developer.zendesk.com/documentation/apps/getting-started/using-zcli/).
+
+#### Step 3: Login
+
+Login to Zendesk CLI:
+
+```bash
+zcli login -i
+```
+
+Input prompts for:
+
+- Subdomain
+- Email
+- Password
+
+#### Step 4: Configure the App
+
+1. Unpack the Zendesk app zip file
+2. Navigate to the app directory in the CLI
+3. Open `manifest.json`
+4. Update the URL in `location.support.ticket_sidebar` to:
+   ```
+   https://agent-assist-staging.xtendops.com/app/zendesk?client_key=[clientkey]
+   ```
+   Replace `[clientkey]` with the key provided by XtendOps
+
+**Note:** Remove `-staging` from the URL if pointing to production:
+
+```
+https://agent-assist.xtendops.com/app/zendesk?client_key=[clientkey]
+```
+
+#### Step 5: Upload the App
+
+Validate and upload the app:
+
+```bash
+zcli apps:validate    # Check for errors
+zcli apps:create      # Upload
+```
+
+A file `zcli.apps.config.json` will be generated with the `app_id` inside it.
+
+#### Step 6: Update the App (Optional)
+
+To update the app after initial upload:
+
+1. Update `manifest.json` (like in Step 4)
+2. Ensure the `app_id` is correct in `zcli.apps.config.json`
+3. Validate and update:
+   ```bash
+   zcli apps:validate    # Check for errors
+   zcli apps:update      # Update
+   ```
+
+#### Step 7: Control App Access
+
+Configure which users or groups have access to the app. View [Zendesk's support documentation](https://support.zendesk.com/hc/en-us/articles/4408832188442-Managing-access-to-apps) on how to assign to groups or roles.
+
+</Accordion>
+
 ### Genesys
 
 Integrate Co-Pilot into Genesys to enhance agent productivity with AI-generated response suggestions.
+
+<Accordion title="Genesys Installation Instructions">
+
+This guide is provided by XtendOps to assist you in implementing Genesys Interaction Widgets. These widgets facilitate streamlined customer interactions across various digital touchpoints. Our goal is to simplify the integration process for your team, offering clear steps to create, customize, and deploy them effectively within your platforms.
+
+#### Step 1: Setup OAuth
+
+1. Navigate to **Admin > Integrations > OAuth**
+2. Click **Add a New Client**
+
+**Under Client Details:**
+
+- Add an appropriate App Name and Description
+- Select **Token Implicit Grant (Browser)**
+- In **Authorized redirect URIs** (one per line) add:
+  ```
+  https://agent-assist.xtendops.com/app/genesys_v2
+  ```
+
+**Under Scope add:**
+
+- `conversations`
+- `conversations:readonly`
+- `notifications`
+- `user-basic-info`
+
+**Send XtendOps:**
+
+- Authorization URL
+- Client ID
+- Client Secret
+
+#### Step 2: Add Interaction Widget
+
+1. Navigate to **Admin > Integrations**
+2. Search for **Interaction Widget**, Install and activate it if it's not yet activated
+3. Add an appropriate Name and Notes
+
+**Under the Configuration Tab:**
+
+- In **Application URL** add:
+  ```
+  https://agent-assist.xtendops.com/app/genesys_v2?conversationid={{gcConversationId}}&language={{gcLangTag}}&client_key=<SHARED_CLIENT_KEY>
+  ```
+- In **Iframe Sandbox Options** add:
+  ```
+  allow-scripts,allow-same-origin,allow-forms,allow-modals,allow-popups
+  ```
+- Select your appropriate choices for **Group Filtering** and **Queue Filtering**
+- In **Communication Type Filtering** add: `chat`
+
+**Under the Advanced Configuration Tab:**
+
+Add the following JSON:
+
+```json
+{
+  "icon": {
+    "vector": "https://agent-assist.xtendops.com/icons/xo-logo.svg",
+    "24x24": "https://agent-assist.xtendops.com/icons/xo-24x24.png",
+    "36x36": "https://agent-assist.xtendops.com/icons/xo-36x36.png",
+    "48x48": "https://agent-assist.xtendops.com/icons/xo-48x48.png",
+    "72x72": "https://agent-assist.xtendops.com/icons/xo-72x72.png"
+  }
+}
+```
+
+</Accordion>
 
 ---
 
