@@ -17,9 +17,9 @@
             "group": "O Get Started",
             "pages": [
               "introduction",
-              "definitions",
-              "architecture",
-              "buildingBestPractices"
+              "getStarted/definitions",
+              "getStarted/architecture",
+              "getStarted/buildingBestPractices"
             ]
           },
           {
@@ -45,23 +45,23 @@
             "group": "Step Types",
             "pages": [
               "platform/smartAgentSteps",
-              "platform/steps/llm-step",
-              "platform/steps/structured-output",
-              "platform/steps/router",
-              "platform/steps/javascript-code",
-              "platform/steps/knowledge-search",
-              "platform/steps/rest-api-call",
-              "platform/steps/call-smartagent",
-              "platform/steps/q-star"
+              "steps/llm-step",
+              "steps/structured-output",
+              "steps/router",
+              "steps/javascript-code",
+              "steps/knowledge-search",
+              "steps/rest-api-call",
+              "steps/call-smartagent",
+              "steps/q-star"
             ]
           },
           {
-            "group": "O Agent Tools",
+            "group": "SmartAgent App",
             "pages": [
-              "overview",
-              "coPilot",
-              "missionControl",
-              "supportedIntegrations"
+              "smartAgentApp/overview",
+              "smartAgentApp/coPilot",
+              "smartAgentApp/missionControl",
+              "smartAgentApp/supportedIntegrations"
             ]
           }
         ]
