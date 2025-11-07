@@ -4,197 +4,114 @@ description: Understanding the XtendOps platform structure and components
 icon: "sitemap"
 ---
 
-The **XtendOps Platform** (XO_AI) is a comprehensive system for building, managing, and monitoring SmartAgents. This page provides an overview of the platform's architecture and how its components work together.
-
-## Platform Overview
-
-XO_AI is a platform where you can build, manage, and monitor **SmartAgents** — BPO-focused AI agents designed to handle customer interactions through automated workflows.
-
-<img src="/getStarted/images/platform-overview-diagram.png" alt="Platform Overview Diagram" />
+The **XtendOps Platform** is a system for building, managing, and monitoring SmartAgents — BPO-focused AI agents for customer interactions.
 
 ## Core Components
 
-### Customer Portal (xoos.xtendops.com)
+```mermaid
+flowchart TB
+    Customer[Customer Message]
 
-The main platform interface where users access all SmartAgent functionality:
+    subgraph Automated["Automated (API)"]
+        API[REST API]
+    end
 
-- **Dashboard** - Landing page with overview of SmartAgents and metrics
+    subgraph Augmented["Human-Augmented"]
+        CoPilot[Co-Pilot]
+        MissionControl[Mission Control]
+    end
+
+    subgraph Platform["XtendOps Platform"]
+        Builder[SmartAgent Builder]
+        Knowledge[Knowledge Management]
+        Evals[Testing & Evals]
+        Dashboard[Dashboard & Reporting]
+        Quality[Quality Review]
+        Settings[Settings]
+    end
+
+    Customer --> API
+    Customer -->CoPilot
+    Customer --> MissionControl
+
+    API --> Platform
+    CoPilot <--> Platform
+    MissionControl <--> Platform
+
+    Platform -->|Automated| Response[Response to Customer]
+    CoPilot -->|Agent Reviews| Response[Response to Customer]
+    MissionControl -->|Agent Reviews| Response[Response to Customer]
+```
+
+The diagram above shows how customer messages flow to the XtendOps Platform through two paths: directly via REST API for automated responses, or through the SmartAgent App (Co-Pilot or Mission Control) for human-augmented interactions.
+
+### XtendOps Platform (xoos.xtendops.com)
+
+Build, manage, and monitor SmartAgents:
+
 - **SmartAgent Builder** - Visual workflow editor
-- **Testing Suite** - Eval management and testing
-- **Quality** - Feedback collection and review
+- **Testing Suite** - Eval management
 - **Knowledge Management** - Article repository
-- **Voice of the Customer** - Conversation analysis
-- **Settings** - User, integration, and AI key management
+- **Dashboard** - Metrics and analysis
+- **Quality** - Feedback and review
+- **Settings** - Users, integrations, AI keys
 
-### Co-Pilot App (agent-assist.xtendops.com)
+[Platform documentation →](/platform/smartAgentBuilder)
 
-The interface agents use when working with a Co-Pilot SmartAgent. Typically embedded into external provider platforms such as Gladly, Salesforce, and Zendesk.
+### SmartAgent App
 
-**Key Features:**
-- AI-suggested responses
-- SmartActions access
-- Command line interface
-- Message editing and feedback
+Deploy SmartAgents for end-user access:
 
-[Learn more about the Co-Pilot App →](/smartAgentApp/coPilot)
+**Co-Pilot** - AI-suggested responses embedded in CRMs (Zendesk, Genesys)
+[Learn more →](/smartAgentApp/coPilot)
 
-### Other Components
-
-**XO Design Library**
-Design system and component library for consistent UI/UX.
-
-**Talent Portal (talent.xtendops.com)**
-Legacy tool for applicant tracking and talent acquisition management. No integration with XOAI.
+**Mission Control** - Chrome extension for conversational AI assistance
+[Learn more →](/smartAgentApp/missionControl)
 
 ## Data Flow
 
-### Automated SmartAgent
+### Automated SmartAgent (API)
 
 ```
-Customer Message
-  ↓
-SmartAgent (Platform)
-  ↓
-[Steps Execute]
-  ├→ Knowledge Search
-  ├→ API Calls
-  ├→ LLM Processing
-  └→ Structured Output
-  ↓
-Response to Customer
-  ↓
-[Optional] Events Trigger
-  ├→ On First Generation Complete
-  └→ QA Rules / Logging
+Customer Message → SmartAgent → [Steps Execute] → Response → [Optional Events]
 ```
 
-### Co-Pilot SmartAgent
+Steps can include: Knowledge Search, API Calls, LLM Processing, Structured Output
+
+### Human-Augmented SmartAgent (Co-Pilot)
 
 ```
-Customer Message
-  ↓
-Co-Pilot SmartAgent
-  ↓
-AI-Generated Draft
-  ↓
-Co-Pilot App (Agent Interface)
-  ↓
-[Agent Reviews/Edits]
-  ├→ Can trigger SmartActions
-  ├→ Can regenerate response
-  └→ Provides feedback
-  ↓
-Final Message to Customer
-  ↓
-Feedback Score Calculated
+Customer Message → SmartAgent → AI Draft → Agent Reviews/Edits → Final Message → Feedback Score
 ```
 
-## Integration Points
+Agent can: Trigger SmartActions, Regenerate response, Edit directly
 
-### External Platforms
+## Integrations
 
-SmartAgents can integrate with external systems via:
+**External Systems:**
+Connect to any REST API or MCP endpoint via the [REST API Call step](/steps/rest-api-call) or [MCP step](/steps/mcp). Credentials stored in [Settings](/platform/settings).
 
-**REST API Call Step:**
-- Salesforce
-- Zendesk
-- Shopify
-- Custom APIs
-- Payment gateways
+**Co-Pilot Embeds:**
+Zendesk, Genesys [Installation guides →](/smartAgentApp/supportedIntegrations)
 
-**Embedded Co-Pilot:**
-- Gladly
-- Salesforce Service Cloud
-- Zendesk
+**AI Providers:**
+OpenAI, Anthropic, Google (Vertex AI, Gemini), Azure OpenAI, Custom endpoints
 
-### AI Providers
+## Security & Deployment
 
-The platform supports multiple AI providers:
-- OpenAI (GPT models)
-- Anthropic (Claude)
-- Google (Vertex AI, Gemini)
-- Azure OpenAI
-- Custom endpoints
+**Authentication:** Username/Password, Google SSO, Role-based access control
 
-### Data Platforms
+**Data Isolation:** Client accounts are isolated with separate data, permissions, and configurations
 
-**BI Integration:**
-- Feedback data flows to BI platform
-- Performance metrics exported
-- Quality scores tracked
-- Usage analytics
+**Credential Management:** API credentials and AI keys stored securely in Settings, separated from workflows
 
-## Security Architecture
+**Multi-Tenancy:** Shared infrastructure with isolated data per client account
 
-### Authentication
-- Username/Password
-- Google Sign-In
-- Role-based access control (RBAC)
-
-### Data Isolation
-- Client accounts are isolated
-- Permissions enforced per account
-- Data segregation at account level
-
-### Credential Management
-- API credentials stored in Integrations
-- AI keys centrally managed
-- Secrets separated from workflows
-
-
-## Deployment Model
-
-### Client Accounts
-
-Each customer gets their own isolated workspace:
-- Dedicated SmartAgents
-- Separate metrics and reporting
-- Custom configurations
-- Independent access controls
-
-### Multi-Tenancy
-
-The platform supports multiple client accounts with:
-- Shared infrastructure
-- Isolated data
-- Account-specific permissions
-- Custom branding (where applicable)
-
-## Platform Capabilities
-
-### Build
-- Visual workflow builder
-- Modular step library
-- Version control
-- Event triggers
-
-### Test
-- Eval creation and management
-- Regression testing
-- Performance benchmarking
-- Step simulation
-
-### Deploy
-- Version management
-- Gradual rollouts
-- Rollback capabilities
-- Environment separation
-
-### Monitor
-- Real-time metrics
-- Quality feedback
-- Conversation analysis
-- Voice of the Customer insights
-
-### Optimize
-- A/B testing via evals
-- Performance trending
-- Feedback-driven improvements
-- Knowledge base updates
+[Settings documentation →](/platform/settings)
 
 ## Related Pages
 
-- [Introduction](/introduction) - Get started with the platform
 - [Definitions](/getStarted/definitions) - Key terminology
 - [SmartAgent Builder](/platform/smartAgentBuilder) - Build workflows
-- [Settings](/platform/settings) - Configure integrations
+- [Step Types](/steps/smartAgentSteps) - Modular building blocks
+- [SmartAgent App](/smartAgentApp/overview) - Deployment options

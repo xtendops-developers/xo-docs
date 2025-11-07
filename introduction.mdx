@@ -4,68 +4,13 @@ description: "Build, manage, and monitor AI-powered SmartAgents for customer ser
 icon: "circle-chevron-right"
 ---
 
-Welcome to the **XtendOps Platform** (XO_AI) — your comprehensive solution for building, managing, and monitoring SmartAgents that transform customer service operations.
+Welcome to the **XtendOps Platform** — your solution for building, managing, and monitoring **SmartAgents**: BPO-focused AI agents designed to handle customer interactions.
 
-## What is XtendOps?
+## Platform Overview
 
-XtendOps provides a powerful platform for creating **SmartAgents**: BPO-focused AI agents designed to handle customer interactions through automated workflows or assist human agents with AI-powered suggestions.
+Build SmartAgents using our visual workflow builder, then deploy them for automated or human-augmented use cases:
 
-### Key Capabilities
-
-<CardGroup cols={2}>
-  <Card
-    title="Build SmartAgents"
-    icon="wand-magic-sparkles"
-    href="/platform/smartAgentBuilder"
-  >
-    Create sophisticated workflows using our visual builder and modular step
-    library
-  </Card>
-  <Card title="Test & Validate" icon="flask" href="/platform/evals">
-    Ensure quality with comprehensive testing suite and performance benchmarking
-  </Card>
-  <Card title="Monitor Performance" icon="gauge" href="/platform/dashboard">
-    Track metrics, analyze conversations, and gather insights from the Voice of
-    the Customer
-  </Card>
-  <Card title="Assist Agents" icon="user-headset" href="/smartAgentApp/coPilot">
-    Empower human agents with AI-suggested responses through the Co-Pilot App
-  </Card>
-</CardGroup>
-
-## Getting Started
-
-<Steps>
-  <Step title="Understand the Platform">
-    Learn about the platform architecture and key concepts
-    - [Definitions & Glossary](/getStarted/definitions)
-    - [Platform Architecture](/getStarted/architecture)
-  </Step>
-
-<Step title="Explore the Dashboard">
-  Familiarize yourself with the main interface and metrics - [Dashboard
-  Overview](/platform/dashboard) - Navigate to SmartAgents - Review key
-  performance indicators
-</Step>
-
-<Step title="Build Your First SmartAgent">
-  Create a simple workflow to get hands-on experience - [SmartAgent
-  Builder](/platform/smartAgentBuilder) - [Step
-  Types](/steps/smartAgentSteps) - [Quick
-  Actions](/platform/smartAgentActions)
-</Step>
-
-  <Step title="Test and Deploy">
-    Validate your SmartAgent before going live
-    - [Testing Suite](/platform/evals)
-    - [Quality Review](/platform/qaQueue)
-    - Deploy with confidence
-  </Step>
-</Steps>
-
-## Platform Sections
-
-### Core Platform
+### Build & Manage
 
 <CardGroup cols={2}>
   <Card
@@ -73,72 +18,128 @@ XtendOps provides a powerful platform for creating **SmartAgents**: BPO-focused 
     icon="wand-magic-sparkles"
     href="/platform/smartAgentBuilder"
   >
-    Visual workflow editor for creating and modifying SmartAgents
+    Visual workflow editor with modular step library
+  </Card>
+  <Card title="Testing & Evals" icon="flask" href="/platform/evals">
+    Validate performance with comprehensive testing suite
   </Card>
   <Card
     title="Knowledge Management"
     icon="book"
     href="/platform/knowledgeManagement"
   >
-    Upload and manage articles that SmartAgents can reference
+    Upload and manage articles for SmartAgents to reference
   </Card>
-  <Card title="Testing Suite" icon="flask" href="/platform/evals">
-    Create evals and benchmark SmartAgent performance
-  </Card>
-  <Card title="Quality" icon="clipboard-check" href="/platform/qaQueue">
-    Review conversations and provide feedback
+  <Card title="Monitor & Analyze" icon="gauge" href="/platform/dashboard">
+    Track metrics and analyze conversation performance
   </Card>
 </CardGroup>
 
-### Analytics & Insights
+### Deploy SmartAgents
 
-<CardGroup cols={2}>
-  <Card title="Dashboard" icon="gauge" href="/platform/dashboard">
-    Overview of SmartAgents and key metrics
+Once built, deploy your SmartAgents for different use cases:
+
+**Automated Use Cases:**
+
+- Deploy via [API](/api-reference/introduction) for fully automated customer interactions
+- Ideal for high trust use cases with deep integrations available.
+
+**Human-Augmented Use Cases:**
+
+- **[Co-Pilot](/smartAgentApp/coPilot)** - AI-suggested responses that agents review and send
+- **[Mission Control](/smartAgentApp/missionControl)** - Chrome extension for conversational AI assistance
+
+Both SmartAgent App options provide context-aware AI assistance to enhance agent productivity.
+
+## Getting Started
+
+<Steps>
+  <Step title="Learn Key Concepts">
+    - [Definitions & Glossary](/getStarted/definitions)
+    - [Platform Architecture](/getStarted/architecture)
+  </Step>
+
+<Step title="Build Your First SmartAgent">
+  - [SmartAgent Builder](/platform/smartAgentBuilder) - [Step
+  Types](/steps/smartAgentSteps) - [SmartActions](/platform/smartAgentActions)
+</Step>
+
+  <Step title="Test & Deploy">
+    - [Create Evals](/platform/evals)
+    - Deploy via [API](/api-reference/introduction) or [SmartAgent App](/smartAgentApp/overview)
+  </Step>
+</Steps>
+
+## Platform Capabilities
+
+<CardGroup cols={3}>
+  <Card
+    title="SmartAgent Builder"
+    icon="wand-magic-sparkles"
+    href="/platform/smartAgentBuilder"
+  >
+    Build workflows with visual editor
+  </Card>
+  <Card title="Step Types" icon="layer-group" href="/steps/smartAgentSteps">
+    Modular building blocks for workflows
+  </Card>
+  <Card title="SmartActions" icon="bolt" href="/platform/smartAgentActions">
+    Reusable task-specific workflows
+  </Card>
+  <Card title="Testing & Evals" icon="flask" href="/platform/evals">
+    Validate and benchmark performance
   </Card>
   <Card
-    title="Voice of the Customer"
-    icon="chart-line"
-    href="/platform/reporting"
+    title="Knowledge Management"
+    icon="book"
+    href="/platform/knowledgeManagement"
   >
-    Explore conversations to uncover trends and insights
+    Manage knowledge articles
   </Card>
-</CardGroup>
-
-### Configuration
-
-<CardGroup cols={2}>
+  <Card title="Quality Review" icon="clipboard-check" href="/platform/qaQueue">
+    Review conversations and feedback
+  </Card>
+  <Card title="Dashboard" icon="gauge" href="/platform/dashboard">
+    Monitor metrics and performance
+  </Card>
+  <Card title="Voice of Customer" icon="chart-line" href="/platform/reporting">
+    Analyze conversation trends
+  </Card>
   <Card title="Settings" icon="gear" href="/platform/settings">
-    Manage users, integrations, and AI provider keys
-  </Card>
-  <Card title="Co-Pilot App" icon="user-headset" href="/smartAgentApp/coPilot">
-    AI assistant interface for human agents
+    Manage users, integrations, and AI keys
   </Card>
 </CardGroup>
 
-## Use Cases
+## Common Use Cases
 
-### Automated Customer Service
-
-Build fully automated SmartAgents that handle common customer inquiries end-to-end, reducing the need for human intervention.
-
-### Agent Assist (Co-Pilot)
-
-Empower your support team with AI-suggested responses that agents can review, edit, and send, improving efficiency while maintaining quality.
-
-### Knowledge Augmentation
-
-Leverage your knowledge base dynamically within conversations, ensuring accurate and consistent information delivery.
-
-### Quality Assurance
-
-Systematically review conversations, track performance metrics, and continuously improve SmartAgent quality.
-
-## Ready to Begin?
-
-Start by exploring the platform fundamentals:
-
-- **[Definitions](/getStarted/definitions)** - Key terminology and concepts
-- **[Architecture](/getStarted/architecture)** - How the platform works
-- **[Dashboard](/platform/dashboard)** - Your command center
-- **[SmartAgent Builder](/platform/smartAgentBuilder)** - Build your first workflow
+<CardGroup cols={3}>
+  <Card title="Automated Customer Service" icon="brain-circuit">
+    Deploy via API to handle routine inquiries end-to-end without human
+    intervention
+  </Card>
+  <Card title="Agent Assist" icon="user-headset">
+    Provide AI-suggested responses that agents review, edit, and send
+  </Card>
+  <Card title="Conversational AI Assistance" icon="search">
+    Context-aware AI help across any webpage via Chrome extension
+  </Card>
+  <Card title="Automated QA" icon="clipboard-check">
+    Analyze interactions, identify errors or areas for improvement, and provide
+    feedback
+  </Card>
+  <Card title="Agent Training Simulations" icon="graduation-cap">
+    Mock customer interactions for new agents, expediting their learning curve
+  </Card>
+  <Card title="After-Call Work Reduction" icon="file-check">
+    Automatically summarize customer interactions and share results
+  </Card>
+  <Card title="Knowledge Gap Identification" icon="search">
+    Highlight misses in macros or SOPs for future response consideration
+  </Card>
+  <Card title="Real-Time Context Summary" icon="sparkles">
+    Summarize and highlight key customer information in real-time for agents
+  </Card>
+  <Card title="Knowledge Augmentation" icon="book-open">
+    Dynamically reference your knowledge base for accurate, consistent responses
+  </Card>
+</CardGroup>

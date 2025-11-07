@@ -17,9 +17,9 @@
             "group": "O Get Started",
             "pages": [
               "introduction",
-              "getStarted/definitions",
               "getStarted/architecture",
-              "getStarted/buildingBestPractices"
+              "getStarted/buildingBestPractices",
+              "getStarted/definitions"
             ]
           },
           {
