@@ -135,7 +135,7 @@ next_step: { "type": "enum", "enum": ["greeting", "issue_identification", "issue
 reason: { "type": "string" }
 ```
 
-**Use case:** Output the `next_step` value to a variable that the [Router step](/platform/steps/router) uses to determine workflow path. The conversation flows from greeting → issue identification → issue resolution → closing.
+**Use case:** Output the `next_step` value to a variable that the [Router step](/steps/router) uses to determine workflow path. The conversation flows from greeting → issue identification → issue resolution → closing.
 
 ### Classify and Tag Content
 Categorize and tag customer inquiries or documents.
@@ -149,6 +149,6 @@ tags: { "type": "array", "items": { "type": "string" } }
 
 ## Related Pages
 
-- [LLM Step](/platform/steps/llm-step) - Generate AI-driven responses
-- [JavaScript Code](/platform/steps/javascript-code) - Process structured data
-- [REST API Call](/platform/steps/rest-api-call) - Send structured data to external systems
+- [LLM Step](/steps/llm-step) - Generate AI-driven responses
+- [JavaScript Code](/steps/javascript-code) - Process structured data
+- [REST API Call](/steps/rest-api-call) - Send structured data to external systems

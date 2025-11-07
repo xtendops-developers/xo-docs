@@ -20,7 +20,7 @@ The Router step enables conditional branching in SmartAgent workflows by routing
 
 The variable that determines which route to take. The value of this variable must match one of the accepted next steps, otherwise it will route to the fallback step.
 
-This variable is often the output of a [Structured Output step](/platform/steps/structured-output) or [JavaScript Code step](/platform/steps/javascript-code) that determines the routing logic.
+This variable is often the output of a [Structured Output step](/steps/structured-output) or [JavaScript Code step](/steps/javascript-code) that determines the routing logic.
 
 **Example:** If you set this to `next_step`, the router will check the value of `{next_step}` and route accordingly.
 
@@ -62,6 +62,6 @@ Route to specialized handlers based on customer intent.
 
 ## Related Pages
 
-- [JavaScript Code](/platform/steps/javascript-code) - Calculate routing logic
-- [LLM Step](/platform/steps/llm-step) - Classify intent for routing
-- [Call SmartAgent](/platform/steps/call-smartagent) - Route to different SmartAgents
+- [JavaScript Code](/steps/javascript-code) - Calculate routing logic
+- [LLM Step](/steps/llm-step) - Classify intent for routing
+- [Call SmartAgent](/steps/call-smartagent) - Route to different SmartAgents
