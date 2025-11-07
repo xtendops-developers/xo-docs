@@ -44,7 +44,7 @@
           {
             "group": "Step Types",
             "pages": [
-              "platform/smartAgentSteps",
+              "steps/smartAgentSteps",
               "steps/llm-step",
               "steps/structured-output",
               "steps/router",
