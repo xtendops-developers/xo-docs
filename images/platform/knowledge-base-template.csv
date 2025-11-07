@@ -1,0 +1,4 @@
+title,content,intent,step_type,brand
+"Sample Knowledge Title","This is sample knowledge content explaining a specific topic or answering a common question.","FAQ","step","XtendOps"
+"How to Guide Example","Step-by-step instructions for completing a specific task or process.","Guide","process","XtendOps"
+"Troubleshooting Entry","Common issue and its resolution with detailed explanation.","Support","troubleshoot","XtendOps"

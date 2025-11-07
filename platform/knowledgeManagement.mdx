@@ -10,7 +10,10 @@ The **Knowledge Management** section is a tool for uploading and managing knowle
 
 Knowledge Management provides a central repository of information that SmartAgents can search and retrieve to provide accurate, contextual responses. This ensures consistent information across all customer interactions.
 
-<img src="/images/screenshots/knowledge-management-interface.png" alt="Knowledge Management Interface" />
+<img
+  src="/images/screenshots/knowledge-management-interface.png"
+  alt="Knowledge Management Interface"
+/>
 
 ## Purpose
 
@@ -22,16 +25,28 @@ Supports the **Knowledge Search** step by providing a centralized knowledge base
 
 ### Bulk Upload
 
-Allows CSV uploads to quickly import multiple knowledge articles at once.
+Allows CSV or PDF uploads to quickly import knowledge articles.
+
+**CSV Upload:** Import multiple knowledge articles at once with structured metadata.
+
+**PDF Upload:** Upload PDF documents that are automatically parsed into content. The PDF content is extracted and stored as knowledge articles.
 
 **CSV Format:**
-- Title
-- Content
-- Namespace (for categorization)
-- Tags/metadata
-- Last updated date
+
+The CSV file should include the following column headers:
+
+- `title` - Article title
+- `content` - Full article content
+- `intent` - Intent or category classification
+- `step_type` - Type of step or process
+- `brand` - Brand or namespace for categorization
+
+[Download Knowledge Base Template CSV](/images/platform/knowledge-base-template.csv)
+
+**Tip:** Use the columns from your CSV upload (like `intent`, `step_type`, or `brand`) as filter key-value pairs in the [Knowledge Search step](/platform/steps/knowledge-search) to retrieve specific articles. For example: `intent, FAQ` or `brand, XtendOps`.
 
 **Benefits:**
+
 - Quick migration from existing knowledge bases
 - Batch updates across multiple articles
 - Consistent formatting
@@ -41,18 +56,21 @@ Allows CSV uploads to quickly import multiple knowledge articles at once.
 Once uploaded, articles can be:
 
 #### Viewed
+
 - View complete article content within the Knowledge Management interface
 - See usage statistics (how often retrieved)
 - Review average feedback scores
 - Track last updated date
 
 #### Edited
+
 - Update article content directly in the interface
 - Modify titles and descriptions
 - Adjust namespace assignments
 - Update metadata
 
 #### Tagged and Annotated
+
 - Add metadata for improved search relevance
 - Assign to namespaces for organization
 - Tag with keywords
@@ -61,6 +79,7 @@ Once uploaded, articles can be:
 ### Article Metrics
 
 Track how knowledge articles are performing:
+
 - **Usage Count** - How many times the article has been retrieved
 - **Average Feedback** - Quality ratings from responses using this article
 - **Last Updated** - When the article was last modified
@@ -71,75 +90,27 @@ Articles stored in Knowledge Management become available to any SmartAgent using
 
 ### Retrieval Methods
 
-**Filter-Based:**
-- Search by namespace
-- Filter by tags
-- Match specific criteria
-
 **Similarity Search:**
+
 - Semantic matching based on conversation context
 - Retrieve most relevant articles
 - Rank by relevance score
 
 **Combined Approach:**
+
 - Apply filters first to narrow scope
 - Use similarity search within filtered results
 - Return top-ranked articles
 
-## Namespaces
-
-Organize articles into logical groupings:
-- **Product Information** - Specifications, features, pricing
-- **Troubleshooting** - Common issues and solutions
-- **Policies** - Return policies, shipping info, terms
-- **FAQs** - Frequently asked questions
-- **Procedures** - Step-by-step instructions
-
 ## Best Practices
 
-1. **Keep Articles Focused** - One topic per article
-2. **Use Clear Titles** - Make articles easy to find
-3. **Update Regularly** - Keep information current
-4. **Tag Comprehensively** - Use multiple relevant tags
-5. **Monitor Usage** - Review which articles are most helpful
-6. **Retire Outdated Content** - Remove or update obsolete information
-
-## Integration Workflow
-
-1. **Upload** - Add articles via CSV or manual entry
-2. **Organize** - Assign namespaces and tags
-3. **Configure SmartAgent** - Add Knowledge Search steps to workflows
-4. **Monitor** - Track article usage and feedback
-5. **Optimize** - Update or remove articles based on performance
-
-## Example Use Cases
-
-### Customer Support
-- Product troubleshooting guides
-- Return and refund policies
-- Shipping information
-- Account management procedures
-
-### Sales
-- Product specifications
-- Pricing and promotions
-- Feature comparisons
-- Use case examples
-
-### Technical Support
-- Error code explanations
-- Configuration instructions
-- API documentation
-- Integration guides
-
-## Content Quality
-
-Ensure knowledge articles are:
-- **Accurate** - Verified and up-to-date
-- **Clear** - Easy to understand
-- **Concise** - No unnecessary information
-- **Structured** - Well-organized with headings
-- **Actionable** - Provide clear next steps
+1. **Upload** - Add articles via CSV, PDF, or manual entry
+2. **Keep Articles Focused** - One topic per article with clear titles
+3. **Tag Comprehensively** - Use metadata columns to enable filtered searches
+4. **Configure SmartAgent** - Add Knowledge Search steps to workflows
+5. **Monitor Usage** - Track article usage and feedback scores
+6. **Update Regularly** - Keep information current and retire outdated content
+7. **Optimize** - Update or remove articles based on performance metrics
 
 ## Related Pages
 
