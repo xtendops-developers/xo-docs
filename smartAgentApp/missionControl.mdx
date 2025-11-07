@@ -4,24 +4,131 @@ description: Chat with purpose-built SmartAgents to automate your daily tasks
 icon: "atom"
 ---
 
-Mission Control provides direct access to your organization's SmartAgents through an intuitive chat interface. Users can interact with purpose-built automated assistants designed to help with specific workflows and daily tasks.
+Mission Control allows you to use **Automated SmartAgents** from a Chrome extension that has awareness of the page you are on. Users can interact with purpose-built automated assistants designed to help with specific workflows and daily tasks.
+
+<div align="center">
+  <img
+    src="/smartAgentApp/images/missionControl.png"
+    alt="Mission Control Interface"
+  />
+</div>
+
+## Overview
+
+Mission Control provides direct access to your organization's SmartAgents through an intuitive chat interface integrated as a Chrome extension. The extension is context-aware, understanding the webpage you're currently viewing to provide relevant assistance.
+
+## Getting Started with AI in BPO Operations
+
+Mission Control is an excellent starting point for quickly adding AI to your BPO operations. It provides immediate value and efficiency improvements while integrations and automations are being developed, or in cases where no integrations are available.
+
+**Benefits as a Starting Point:**
+
+- **Quick Deployment**: Get AI assistance up and running without complex integrations by using XtendOps's templated SmartAgents.
+- **Immediate Impact**: Start improving efficiency right away by making the template SmartAgents specific to your organization.
+- **Bridge Solution**: Provides value while more sophisticated automations are built
+- **No Integration Required**: Works independently when external system connections aren't available
+- **Low Barrier to Entry**: Users can access AI assistance through a simple Chrome extension. Perfect for situations where embedding a SmartAgent in a CRM or other system is not available.
 
 ## Key Features
 
-- **Conversational Interface**: Chat naturally with SmartAgents to accomplish tasks
-- **Purpose-Built Assistants**: Access SmartAgents designed for specific use cases and workflows
+- **Context Awareness**: The extension understands the page you're currently viewing
+- **Multiple SmartAgents**: Access to several SmartAgents based on your permissions
+- **Purpose-Built Assistants**: SmartAgents designed for specific use cases and workflows
 - **Task Automation**: Automate routine processes through conversational commands
 - **Direct Access**: No need to switch between tools—interact with SmartAgents directly
+- **Quick Actions Access**: Run any Quick Action available to the SmartAgent by typing `/<name of action>` in the text input
 
-## Use Cases
+### Reading the Current Page
 
-Mission Control is ideal for:
+You can add the current page's context to your conversation by clicking the read page button or using the keyboard shortcut (`⌘+⌥+R` on Mac or `Ctrl+Alt+R` on Windows).
 
-- Automating repetitive workflows
-- Accessing company knowledge and procedures
-- Processing routine requests
-- Streamlining operational tasks
+<div align="center">
+  <img
+    src="/smartAgentApp/images/read-page.png"
+    alt="Read Page Button"
+    width="600"
+  />
+</div>
+
+Once the page is read, the content is added as context for your conversation, allowing the SmartAgent to provide more relevant and informed responses based on what you're currently viewing.
+
+<div align="center">
+  <img
+    src="/smartAgentApp/images/page-read-with-context.png"
+    alt="Page Read with Context"
+    width="600"
+  />
+</div>
+
+### Quick Actions
+
+Any Quick Actions configured for the SmartAgent you're using are available directly in Mission Control. Simply type `/<name of smartaction>` in the text input to trigger a Quick Action.
+
+<div align="center">
+  <img
+    src="/smartAgentApp/images/action-demo.png"
+    alt="Action Demo"
+    width="600"
+  />
+</div>
+
+**Example:**
+
+```
+/rephrase add emojis
+```
+
+This would execute the "rephrase" Quick Action and add emojis to the response if it's available for your current SmartAgent.
+
+[Learn more about Quick Actions →](/platform/smartAgentActions)
+
+### Keyboard Shortcuts
+
+Mission Control includes powerful keyboard shortcuts for efficient navigation and usage:
+
+**Navigation**
+
+| Action                            | Mac       | Windows        |
+| --------------------------------- | --------- | -------------- |
+| Toggle sidebar                    | `⌘+⌥+B`   | `Ctrl+Alt+B`   |
+| New chat                          | `⌘+⌥+N`   | `Ctrl+Alt+N`   |
+| Toggle view (Tickets/SmartAgents) | `⌘+⌥+T`   | `Ctrl+Alt+T`   |
+| Previous tab                      | `⌘+⌥+,`   | `Ctrl+Alt+,`   |
+| Next tab                          | `⌘+⌥+.`   | `Ctrl+Alt+.`   |
+| Switch to tab 1-9                 | `⌘+⌥+1-9` | `Ctrl+Alt+1-9` |
+
+**Chat**
+
+| Action             | Mac     | Windows      |
+| ------------------ | ------- | ------------ |
+| Focus chat input   | `⌘+⌥+;` | `Ctrl+Alt+;` |
+| Close current chat | `⌘+⌥+W` | `Ctrl+Alt+W` |
+| Read current page  | `⌘+⌥+R` | `Ctrl+Alt+R` |
+
+**General**
+
+| Action         | Mac   | Windows  |
+| -------------- | ----- | -------- |
+| Close modal    | `Esc` | `Esc`    |
+| Show shortcuts | `⌘+/` | `Ctrl+/` |
+
+## Access Control
+
+Access to various SmartAgents is granted by an admin in the platform, and you can be assigned to multiple SmartAgents based on your role and needs.
+
+In order to access a SmartAgent, you must be assigned to it in the platform and you need to login using your XtendOps credentials.
+
+### Available SmartAgents
+
+**XtendOps Generic SmartAgents:**
+
+- **XO GPT** - General-purpose conversational AI assistant
+- **XO QA** - Helps grade conversation performance and quality
+- Many more templates are available to choose from
+
+**Customer-Specific SmartAgents:**
+Custom SmartAgents can be made available to users to add a personalized touch, tailored to your organization's specific workflows and requirements.
 
 ---
 
-Mission Control empowers users to work more efficiently by putting AI-powered automation at their fingertips.
+Mission Control empowers users to work more efficiently by putting AI-powered automation at their fingertips, directly within their browser workflow.
