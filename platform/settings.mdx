@@ -6,11 +6,16 @@ icon: "gear"
 
 **Settings** provides centralized configuration for user access, external connections, and AI model keys. This is the administrative hub for your XtendOps workspace.
 
+<Info>The settings page is only accessible to admins.</Info>
+
 ## Overview
 
 Settings is organized into tabs that manage different aspects of your workspace configuration, from user permissions to API integrations to AI provider keys.
 
-<img src="/images/screenshots/settings-user-management.png" alt="Settings - User Management" />
+<img
+  src="/images/screenshots/settings-user-management.png"
+  alt="Settings - User Management"
+/>
 
 ## Tabs
 
@@ -19,23 +24,29 @@ Settings is organized into tabs that manage different aspects of your workspace 
 User management for the workspace.
 
 **User Roles:**
+
 - **Admin** - Full platform access including user, integration, and AI key management
-- **Customer** - View-only access to SmartAgents, Quality, Knowledge Management, and Voice of the Customer
-- **Builder** - Full platform access except user, integration, and AI key management
-- **Agent** - Access limited to the Co-Pilot App (if granted permission in their system)
+- **Customer** - View-only access to SmartAgents, Quality, Knowledge Management, and Reporting
+- **Builder** - Full platform access except for settings
 
 **Authentication Methods:**
-- Username/Password
-- Google Sign-In
+
+Users authenticate based on their email domain:
+
+- **XtendOps Domains** (`@xtendops.us` or `@xolatam.com`) - Must use Google SSO
+- **All Other Domains** - Username/Password authentication
+
+**Multi-Account Access:**
+
+Users can be added to multiple client accounts but maintain a single role across all accounts. When adding an existing user, the system will display their current permissions after you enter their email address.
 
 **User Management Features:**
+
 - Invite new users
 - Assign/change roles
 - Enable/disable accounts
 - View last login times
 - Track user activity
-
-[Learn more about user roles and permissions →](/personas)
 
 ### Integrations
 
@@ -45,12 +56,14 @@ Secure storage for external API credentials used by the REST API Call step in Sm
 Store secrets here and reference them from the REST step instead of pasting raw tokens in the builder.
 
 **Benefits:**
+
 - **Improved Security** - Credentials stored separately from workflows
 - **Easier Rotation** - Update credentials without modifying SmartAgents
 - **Centralized Management** - One place for all API credentials
 - **Access Control** - Limit who can view/edit credentials
 
 **Supported Authentication Types:**
+
 - API Keys
 - Bearer Tokens
 - OAuth credentials
@@ -58,6 +71,7 @@ Store secrets here and reference them from the REST step instead of pasting raw 
 - Custom headers
 
 **Integration Examples:**
+
 - Salesforce
 - Zendesk
 - Shopify
@@ -71,57 +85,14 @@ Store secrets here and reference them from the REST step instead of pasting raw 
 Central place to register AI provider keys to enable usage tracking and cost/usage reporting by model.
 
 **Supported Providers:**
+
 - OpenAI
 - Anthropic
-- Google (Vertex AI, Gemini)
 - Azure OpenAI
-- Custom endpoints
-
-**Key Features:**
-- Usage tracking by model
-- Cost attribution
-- Pricing analytics
-- Spend reporting
-- Model performance metrics
-
-**Reporting Capabilities:**
-- **Cost per Conversation** - Track AI costs at the conversation level
-- **Model Usage** - See which models are used most frequently
-- **Token Consumption** - Monitor token usage across SmartAgents
-- **Spend Trends** - Analyze cost trends over time
-- **Attribution** - Attribute costs to specific SmartAgents or client accounts
-
-### Feature Flags
-
-*(Not shown in PDF but commonly part of settings)*
-
-Control access to beta features and experimental functionality.
 
 ### Command Center
 
-*(Referenced in PDF as a tab)*
-
-Access to system-level commands and administrative functions.
-
-## Security Best Practices
-
-### For Integrations
-1. **Rotate Regularly** - Update API credentials on a schedule
-2. **Principle of Least Privilege** - Only grant necessary permissions
-3. **Audit Access** - Track who accesses integration credentials
-4. **Use Service Accounts** - Don't use personal credentials for integrations
-
-### For AI Keys
-1. **Monitor Spend** - Set up alerts for unusual usage
-2. **Separate by Environment** - Use different keys for dev/staging/production
-3. **Track Attribution** - Understand which SmartAgents drive costs
-4. **Review Regularly** - Audit model usage and optimize costs
-
-### For Users
-1. **Onboard/Offboard Promptly** - Add and remove users as needed
-2. **Right-Size Roles** - Assign minimal permissions needed
-3. **Enforce MFA** - Require multi-factor authentication where possible
-4. **Review Regularly** - Audit user access quarterly
+Still a work in progress. This allows you to administer what XtendOps employees can access the SmartAgent Extension. Further documentation should be provided once this feature is fully implemented.
 
 ## Common Workflows
 
@@ -150,12 +121,6 @@ Access to system-level commands and administrative functions.
 4. Select role (Admin, Builder, Customer, Agent)
 5. Send invitation
 6. User receives email and completes registration
-
-## Permissions Matrix
-
-See the full permissions matrix showing what each role can access:
-
-[View detailed permissions →](/personas)
 
 ## Related Pages
 

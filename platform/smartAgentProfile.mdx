@@ -1,24 +1,62 @@
 ---
 title: SmartAgent Profile
-description: Overview of the SmartAgent currently being viewed
+description: View SmartAgent details, metrics, and configuration
 icon: "user-robot"
 ---
 
-The **SmartAgent Profile** tab provides a comprehensive overview of the SmartAgent you're currently working with. This is one of the three main tabs within the SmartAgent Builder workspace.
+The **SmartAgent Profile** page provides an overview of a specific SmartAgent's configuration, performance metrics, and recent activity.
 
-## Purpose
+<div align="center">![SmartAgent Profile](/images/platform/profile.png)</div>
 
-The SmartAgent Profile serves as the information hub for a specific SmartAgent, displaying key metadata, deployment status, and performance metrics at a glance.
+## Overview
 
-## What You'll Find Here
+The profile page displays key information about the SmartAgent at a glance, including its status, type, description, and features.
 
-- **Version Information** - Current version number and deployment history
-- **Creation Date** - When the SmartAgent was first created
-- **Deployed Version** - Which version is currently active in production
-- **Performance Metrics** - Key performance indicators specific to this SmartAgent
-- **Configuration Overview** - High-level summary of the SmartAgent's setup
+**SmartAgent Details:**
 
-## Related Sections
+- **Status** - Active or inactive indicator
+- **Type** - SmartAgent type (Copilot, Automation, etc.)
+- **Category** - Use case category
+- **Description** - Purpose and functionality summary
+- **Key Features** - Highlighted capabilities
 
-- [SmartAgent Builder](/platform/smartAgentBuilder) - Canvas view for configuring steps and deploying versions
-- [SmartAction Configuration](/platform/smartAgentActions) - Manage quick actions for this SmartAgent
+## Agent Metrics
+
+Performance metrics tracked over time for the SmartAgent.
+
+**Available Metrics:**
+
+- **Avg. Feedback Score** - Average quality rating with comparison to last month
+- **Conversation Count** - Total number of conversations handled
+- **Messages per Day** - Daily message volume
+
+## Activity Overview
+
+Chart showing AI message volume generated over a selected time period with comparison to previous periods.
+
+**Features:**
+
+- Date range selector (Last 7 days, 30 days, etc.)
+- Time-series visualization
+- Period-over-period comparison
+
+## Latest Conversations
+
+Table displaying recent conversations with the SmartAgent, including conversation IDs, creation dates, and message counts.
+
+## Latest Activity
+
+Activity log showing recent updates and changes to the SmartAgent, including profile updates, step modifications, and version deployments.
+
+## Integrations
+
+Connection information for external systems, including:
+
+- **Chatbot URL** - API endpoint for integrating with external platforms
+- **Sample POST Request** - Example API call format
+
+## Related Pages
+
+- [SmartAgent Builder](/platform/smartAgentBuilder) - Build and configure workflows
+- [SmartActions](/platform/smartAgentActions) - Configure quick actions
+- [Dashboard](/platform/dashboard) - View all SmartAgents

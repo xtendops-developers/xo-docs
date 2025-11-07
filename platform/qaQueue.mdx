@@ -10,7 +10,10 @@ The **Quality** section provides tools for collecting and reviewing feedback on 
 
 Quality management is essential for maintaining high standards in AI-generated responses. This section provides the infrastructure to review conversations, collect feedback, and track performance over time.
 
-<img src="/images/screenshots/quality-queue-interface.png" alt="Quality Queue Interface" />
+<img
+  src="/images/screenshots/quality-queue-interface.png"
+  alt="Quality Queue Interface"
+/>
 
 ## Tabs
 
@@ -21,28 +24,35 @@ A workspace for reviewing items flagged for quality assessment. Items can be aut
 **What's in the Queue:**
 
 #### Messages
+
 Individual messages with their complete context:
+
 - Customer input
 - AI-generated response
 - Final delivered message
 - Background context
 
 #### Conversations
+
 Full conversation threads for context-rich feedback, allowing reviewers to:
+
 - See the complete customer journey
 - Assess multi-turn interactions
 - Evaluate conversation flow
 - Identify patterns
 
 #### QA Rules
+
 Outputs from QA SmartAgents that have graded conversations and sent results to the queue for human review.
 
 **Feedback Collection:**
+
 - **Thumbs Up/Down** - Binary quality assessment
 - **Reason** - Categorized reason for the rating
 - **Comment** - Optional detailed feedback
 
 **Integration:**
+
 - Results are integrated into the BI platform for reporting
 - Used to ensure confidence in AI performance
 - Informs prompt/step improvements
@@ -53,12 +63,14 @@ Outputs from QA SmartAgents that have graded conversations and sent results to t
 Allows review of raw conversation data within a client account.
 
 **Features:**
+
 - Displays complete back-and-forth between user and AI
 - Enables performance assessment
 - Provides feedback interface
 - Filterable by date, SmartAgent, and tags
 
 **Use Cases:**
+
 - Random quality sampling
 - Investigating specific issues
 - Training and calibration
@@ -69,12 +81,14 @@ Allows review of raw conversation data within a client account.
 Used to create automated QA rules that run on a schedule.
 
 **Capabilities:**
+
 - Select random sampling of conversations or messages each day
 - Populate the queue automatically for review
 - Provide random performance datasets for analysis
 - Enable quality insights sharing with customers
 
 **Configuration Options:**
+
 - **Schedule** - Daily, weekly, or custom frequency
 - **Sample Size** - Number of items to select
 - **Filters** - SmartAgent, date range, tags
@@ -82,53 +96,17 @@ Used to create automated QA rules that run on a schedule.
 
 ## Purpose
 
-The Quality section serves multiple purposes:
+The Quality section enables performance validation by ensuring AI responses meet quality standards and tracking metrics over time. It supports continuous improvement through structured feedback collection that informs prompt engineering and guides SmartAgent modifications. The data provides customer transparency by demonstrating satisfaction levels and building confidence in AI performance, while also serving as risk mitigation to catch problematic responses early and prevent recurring issues.
 
-### Performance Validation
-- Ensure AI responses meet quality standards
-- Identify areas for improvement
-- Track quality metrics over time
-
-### Continuous Improvement
-- Collect structured feedback
-- Inform prompt engineering
-- Guide SmartAgent modifications
-- Validate changes
-
-### Customer Transparency
-- Demonstrate satisfaction levels
-- Share quality metrics with stakeholders
-- Build confidence in AI performance
-
-### Risk Mitigation
-- Catch problematic responses early
-- Identify edge cases
-- Prevent recurring issues
-
-## Workflow
+## Workflow and Best Practices
 
 1. **Items Enter Queue** - Automatically via rules or manually flagged
-2. **Reviewers Assess** - Evaluate messages/conversations and provide feedback
-3. **Feedback Collected** - Thumbs up/down, reason, and comments captured
-4. **Data Integrated** - Results flow to BI platform for reporting
-5. **Actions Taken** - Insights drive improvements to SmartAgents
-
-## Best Practices
-
-1. **Regular Review** - Schedule consistent review sessions
-2. **Calibration** - Align reviewers on quality standards
-3. **Random Sampling** - Don't only review flagged items
-4. **Actionable Feedback** - Provide specific, constructive comments
-5. **Track Trends** - Monitor quality metrics over time
-6. **Close the Loop** - Use feedback to improve SmartAgents
-
-## Integration with BI
-
-Feedback data is integrated into the BI platform, enabling:
-- Quality trend analysis
-- Performance dashboards
-- Customer reporting
-- Comparative analysis across SmartAgents
+2. **Regular Review** - Schedule consistent review sessions with calibrated reviewers
+3. **Reviewers Assess** - Evaluate messages/conversations and provide specific, actionable feedback
+4. **Random Sampling** - Review both flagged items and random samples for balanced assessment
+5. **Feedback Collected** - Thumbs up/down, reason, and detailed comments captured
+6. **Track Trends** - Monitor quality metrics over time via BI platform integration
+7. **Close the Loop** - Use insights to drive improvements to SmartAgents
 
 ## Related Pages
 
