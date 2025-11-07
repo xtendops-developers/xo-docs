@@ -25,6 +25,7 @@ Select the LLM provider and specific model for this step. Only providers that su
 The prompt that instructs the LLM on what information to extract and how to structure it. Include relevant context and variables.
 
 **Example:**
+
 ```
 Determine the next step in the conversation flow based on the chat history and current message.
 
@@ -40,6 +41,7 @@ Select the appropriate next step.
 Define the structure of the output JSON object. Each property specifies a field name and its data type.
 
 **Available types:**
+
 - **String** - Text values
 - **Number** - Numeric values (integers or decimals)
 - **Integer** - Whole numbers only
@@ -47,6 +49,7 @@ Define the structure of the output JSON object. Each property specifies a field 
 - **Enum** - Predefined list of allowed values
 
 **Example schema:**
+
 ```json
 intent: { "type": "string" }
 priority: { "type": "enum", "enum": ["low", "medium", "high"] }
@@ -62,6 +65,7 @@ The LLM will extract data matching this schema from the input text.
 When enabled, each schema property is saved as a separate variable in the background context instead of a single nested object.
 
 **Example:**
+
 - Disabled: Access via `{output.meeting_name}`
 - Enabled: Access via `{meeting_name}`
 
@@ -96,9 +100,11 @@ Advanced system-level instructions for the LLM. Generally not needed for standar
 ## Common Use Cases
 
 ### Extract Customer Intent and Details
+
 Parse customer messages to identify what they want and relevant details.
 
 **Schema:**
+
 ```json
 intent: { "type": "string" }
 order_number: { "type": "string" }
@@ -106,9 +112,11 @@ urgency: { "type": "string" }
 ```
 
 ### Parse Form Data
+
 Convert free-text responses into structured fields.
 
 **Schema:**
+
 ```json
 full_name: { "type": "string" }
 email: { "type": "string" }
@@ -117,9 +125,11 @@ preferred_contact_method: { "type": "string" }
 ```
 
 ### Determine Next Step for Router
+
 Extract routing information to use with the Router step.
 
 **Prompt:**
+
 ```
 Based on the conversation context, determine the next step.
 
@@ -130,6 +140,7 @@ Choose the best next step based on where we are in the conversation.
 ```
 
 **Schema:**
+
 ```json
 next_step: { "type": "enum", "enum": ["greeting", "issue_identification", "issue_resolution", "closing"] }
 reason: { "type": "string" }
@@ -138,14 +149,55 @@ reason: { "type": "string" }
 **Use case:** Output the `next_step` value to a variable that the [Router step](/steps/router) uses to determine workflow path. The conversation flows from greeting → issue identification → issue resolution → closing.
 
 ### Classify and Tag Content
+
 Categorize and tag customer inquiries or documents.
 
 **Schema:**
+
 ```json
 category: { "type": "string" }
 priority: { "type": "string" }
 tags: { "type": "array", "items": { "type": "string" } }
 ```
+
+### Set Summary Section for Co-Pilot
+
+Extract key conversation information and display it in the [Co-Pilot App](/smartAgentApp/coPilot) Summary Section for agents.
+
+**Prompt:**
+
+```
+Your job is to extract key information from a conversation between a customer and a chatbot. Below is the conversation chat history and metadata to be parsed.
+
+===========================
+CHAT HISTORY TO SUMMARIZE
+{chat_history}
+
+===========================
+CHAT METADATA TO EXTRACT
+{participant_data}
+
+===========================
+From the above context, extract the following information:
+- Brand, language, and reason for contact from metadata
+- Customer's first name
+- Key details shared during the conversation (email, order number, customer ID, address, order dates, etc.)
+- Brief summary of the conversation
+```
+
+**Schema:**
+
+```json
+brand: { "type": "enum", "enum": ["Brand A", "Brand B", "Brand C"] }
+language: { "type": "string" }
+customer_first_name: { "type": "string" }
+smartagent__conversation_summary: { "type": "string" }
+reason_for_contact: { "type": "string" }
+```
+
+**Note:** The `smartagent__conversation_summary` field should contain a markdown-formatted summary. This will be displayed in the Co-Pilot Summary Section for agents.
+
+[Learn more about the Co-Pilot Summary Section →](/smartAgentApp/coPilot#summary-section)
 
 ## Related Pages
 

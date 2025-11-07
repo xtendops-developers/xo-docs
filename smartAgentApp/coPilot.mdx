@@ -4,22 +4,29 @@ description: AI assistant interface for human agents
 icon: "user-headset"
 ---
 
-The **Co-Pilot App** is the interface agents use when working with a Co-Pilot SmartAgent. It is typically embedded into external provider platforms such as Gladly, Salesforce, and Zendesk.
+The **Co-Pilot App** is the interface agents use when working with a Co-Pilot SmartAgent. It is typically embedded into external provider platforms such as Gladly, Salesforce, and Zendesk .
 
 ## Overview
 
 The Co-Pilot App streamlines agent workflows, enhances AI-assisted messaging, and provides quick access to contextual tools. It operates as a side-by-side assistant, suggesting responses that agents can review, edit, and send.
 
-<img
-  src="/smartAgentApp/images/copilot-app-interface.png"
-  alt="Co-Pilot App Interface"
-/>
+<div align="center">
+  <img
+    src="/smartAgentApp/images/copilot.png"
+    alt="Co-Pilot Interface"
+    width="400"
+  />
+</div>
 
 ## Interface Components
 
 ### Summary Section
 
 Displays dynamic, high-priority information to help agents make informed decisions quickly.
+
+<Info>
+To write data to the Summary Section, set the output variable or [structured output](/steps/structured-output) variable to the background context variable `smartagent__conversation_summary`. Whatever is written as the value for this variable will be displayed in the Summary Section. Markdown language is supported for formatting.
+</Info>
 
 **Content Types:**
 
@@ -53,48 +60,23 @@ Shows the AI-suggested response that agents can edit before sending.
 **Quality Assurance:**
 Agents ensure accuracy, tone, and compliance with guidelines before sending.
 
-### Command Line
+### SmartActions
 
-Allows agents to trigger specific SmartActions via typed commands.
+Any SmartActions configured for the SmartAgent you're using are available directly in Mission Control. Simply type `/<name of smartaction>` in the text input to trigger a SmartAction.
 
-**Example Usage:**
+**Example:**
 
 ```
-/friendlier
+/rephrase add emojis
 ```
 
-Triggers a SmartAction to rephrase the response in a friendlier tone with emojis.
-
-**Common Commands:**
-
-- `/friendlier` - Add friendly tone and emojis
-- `/formal` - Make more professional
-- `/summarize` - Condense the response
-- `/expand` - Provide more detail
-- `/[custom-action]` - Any configured SmartAction
+This would execute the "rephrase" SmartAction and add emojis to the response if it's available for your current SmartAgent.
 
 [Learn more about SmartActions →](/platform/smartAgentActions)
 
-### SmartActions Access
-
-Agents can directly trigger configured SmartActions from the app, including timer-based responses.
-
-**Access Methods:**
-
-- Command line (text-based)
-- Button shortcuts
-- Context menu
-
-**Capabilities:**
-
-- Response suggestions
-- CRM updates
-- Knowledge lookups
-- Custom workflows
-
 ### Message Controls
 
-#### Regenerate
+**Regenerate**
 
 Request a new AI-generated draft with different wording or approach.
 
@@ -104,7 +86,7 @@ Request a new AI-generated draft with different wording or approach.
 - Want alternative phrasing
 - Need different tone
 
-#### Copy
+**Copy**
 
 Copy the message to clipboard for use elsewhere.
 
@@ -114,7 +96,7 @@ Copy the message to clipboard for use elsewhere.
 - Save for templates
 - Share with team members
 
-#### Feedback
+**Feedback**
 
 Provide thumbs-up/thumbs-down feedback on the AI suggestion.
 
@@ -125,55 +107,21 @@ Provide thumbs-up/thumbs-down feedback on the AI suggestion.
 - **Reason** - Categorized reason for feedback
 - **Comment** - Optional detailed explanation
 
-**Impact:**
-
-- Integrated into BI platform for reporting
-- Informs SmartAgent improvements
-- Tracks quality trends
-
-#### Send
+**Send**
 
 Finalize and send the response to the customer.
 
-**Workflow:**
-
-1. Review AI suggestion
-2. Make any necessary edits
-3. Verify accuracy and tone
-4. Click Send
-5. (Optional) Provide feedback
-
-## Integration with External Platforms
-
-### Gladly
-
-- Embedded in conversation sidebar
-- Access to customer timeline
-- Integrated contact history
-
-### Salesforce Service Cloud
-
-- Side panel integration
-- Case information display
-- CRM data access
-
-### Zendesk
-
-- Ticket sidebar app
-- Access to ticket fields
-- Customer context
-
 ## Agent Workflow
 
-### 1. Customer Message Arrives
+**1. Customer Message Arrives**
 
 Agent receives customer inquiry in their platform.
 
-### 2. AI Generates Suggestion
+**2. AI Generates Suggestion**
 
 Co-Pilot SmartAgent processes the message and generates a suggested response.
 
-### 3. Agent Reviews
+**3. Agent Reviews**
 
 Agent sees:
 
@@ -181,7 +129,7 @@ Agent sees:
 - Relevant context in Summary Section
 - Available SmartActions
 
-### 4. Agent Edits (If Needed)
+**4. Agent Edits (If Needed)**
 
 Agent may:
 
@@ -190,20 +138,28 @@ Agent may:
 - Trigger SmartActions to modify
 - Regenerate entirely
 
-### 5. Agent Sends
+**5. Agent Sends**
 
 After review, agent sends the final message to the customer.
 
-### 6. Feedback Collected
+**6. Feedback Collected**
 
-System calculates **Assist Score** comparing:
+System calculates **Feedback Score** comparing:
 
 - AI-generated draft
 - Final sent message
 
+### Best Practices
+
+1. **Review Before Sending** - Always verify AI suggestions for accuracy
+2. **Use SmartActions** - Leverage commands for common modifications
+3. **Provide Feedback** - Help improve AI quality with thumbs up/down
+4. **Edit When Needed** - Don't send if something feels off
+5. **Learn Patterns** - Notice what works well and share with team
+
 ## Performance Metrics
 
-### Assist Score / Feedback Score / Accuracy Score
+### Feedback Score
 
 Measures how closely the AI-generated response matches the final message sent by the agent.
 
@@ -219,59 +175,27 @@ Measures how closely the AI-generated response matches the final message sent by
 - AI suggestion may need improvement
 - Opportunity for SmartAgent optimization
 
-### Efficiency Gains
-
-**Metrics Tracked:**
-
-- Average handle time (AHT) reduction
-- Messages per hour increase
-- First contact resolution improvement
-- Agent satisfaction scores
-
-## Benefits
-
-### For Agents
-
-- Faster response times
-- Reduced mental load
-- Consistent quality
-- Easy access to knowledge
-- Tone guidance
-
-### For Customers
-
-- Quicker responses
-- Accurate information
-- Consistent experience
-- Quality interactions
-
-### For Organizations
-
-- Improved efficiency
-- Reduced training time
-- Quality consistency
-- Scalable support
-- Data-driven optimization
-
-## Best Practices
-
-1. **Review Before Sending** - Always verify AI suggestions for accuracy
-2. **Use SmartActions** - Leverage commands for common modifications
-3. **Provide Feedback** - Help improve AI quality with thumbs up/down
-4. **Edit When Needed** - Don't send if something feels off
-5. **Learn Patterns** - Notice what works well and share with team
-
 ## Access Control
 
-Co-Pilot App access is controlled via the **Agent** role:
+Co-Pilot App access is controlled in two ways depending on how it's being accessed:
 
+### CRM Integration
+
+When Co-Pilot is embedded in a CRM platform (see [Supported Integrations](/smartAgentApp/supportedIntegrations)), access is controlled by the CRM itself:
+
+- Permissions managed within the external system (Zendesk, Genesys, etc.)
+- Users access Co-Pilot through their existing CRM workflows
+- Access follows the CRM's role-based permissions
+
+### Chrome Extension
+
+When accessed via the Chrome extension, access is controlled by user permissions in the XtendOps platform:
+
+- Users must be assigned the **Agent** role in the platform
 - Access limited to the Co-Pilot App only
 - No access to SmartAgent Builder or other platform features
-- Permissions granted within their external system (Gladly, Salesforce, etc.)
 
 ## Related Pages
 
 - [SmartActions](/platform/smartAgentActions) - Configure available commands
-- [SmartAgent Builder](/platform/smartAgentBuilder) - Build Co-Pilot SmartAgents
-- [Quality](/platform/qaQueue) - Review Co-Pilot performance
-- [Settings](/platform/settings) - Manage user access
+- [Supported Iframes](/smartAgentApp/supportedIntegrations) - Embed Co-Pilot in your existing support platforms
