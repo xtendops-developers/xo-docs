@@ -63,10 +63,6 @@
               "missionControl",
               "supportedIntegrations"
             ]
-          },
-          {
-            "group": "O Security",
-            "pages": ["security/general", "security/faq"]
           }
         ]
       },
