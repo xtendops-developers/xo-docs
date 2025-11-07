@@ -52,6 +52,7 @@
               "steps/knowledge-search",
               "steps/rest-api-call",
               "steps/call-smartagent",
+              "steps/mcp",
               "steps/q-star"
             ]
           },
