@@ -26,29 +26,31 @@ The prompt that instructs the LLM on what information to extract and how to stru
 
 **Example:**
 ```
-Extract meeting details from the following text:
+Determine the next step in the conversation flow based on the chat history and current message.
 
-{customer_message}
+Chat history: {chat_history}
+Current message: {original_question}
+Previous step: {conversation_last_step}
 
-Identify the meeting name, date, and participants.
+Select the appropriate next step.
 ```
 
 ### Schema Properties
 
 Define the structure of the output JSON object. Each property specifies a field name and its data type.
 
-**Property format:**
-```json
-{
-  "type": "string|number|boolean|array|object"
-}
-```
+**Available types:**
+- **String** - Text values
+- **Number** - Numeric values (integers or decimals)
+- **Integer** - Whole numbers only
+- **Boolean** - True/false values
+- **Enum** - Predefined list of allowed values
 
 **Example schema:**
 ```json
-meeting_name: { "type": "string" }
-date: { "type": "string" }
-participants: { "type": "array", "items": { "type": "string" } }
+intent: { "type": "string" }
+priority: { "type": "enum", "enum": ["low", "medium", "high"] }
+item_count: { "type": "integer" }
 ```
 
 The LLM will extract data matching this schema from the input text.
@@ -114,16 +116,26 @@ phone: { "type": "string" }
 preferred_contact_method: { "type": "string" }
 ```
 
-### Extract Meeting Information
-Pull structured data from meeting descriptions.
+### Determine Next Step for Router
+Extract routing information to use with the Router step.
+
+**Prompt:**
+```
+Based on the conversation context, determine the next step.
+
+Chat history: {chat_history}
+Current message: {original_question}
+
+Choose the best next step based on where we are in the conversation.
+```
 
 **Schema:**
 ```json
-meeting_title: { "type": "string" }
-date: { "type": "string" }
-time: { "type": "string" }
-attendees: { "type": "array", "items": { "type": "string" } }
+next_step: { "type": "enum", "enum": ["greeting", "issue_identification", "issue_resolution", "closing"] }
+reason: { "type": "string" }
 ```
+
+**Use case:** Output the `next_step` value to a variable that the [Router step](/platform/steps/router) uses to determine workflow path. The conversation flows from greeting → issue identification → issue resolution → closing.
 
 ### Classify and Tag Content
 Categorize and tag customer inquiries or documents.
