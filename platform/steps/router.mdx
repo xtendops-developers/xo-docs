@@ -20,7 +20,9 @@ The Router step enables conditional branching in SmartAgent workflows by routing
 
 The variable that determines which route to take. The value of this variable must match one of the accepted next steps, otherwise it will route to the fallback step.
 
-**Example:** If you set this to `intent`, the router will check the value of `{intent}` and route accordingly.
+This variable is often the output of a [Structured Output step](/platform/steps/structured-output) or [JavaScript Code step](/platform/steps/javascript-code) that determines the routing logic.
+
+**Example:** If you set this to `next_step`, the router will check the value of `{next_step}` and route accordingly.
 
 ### Accepted Next Steps
 
@@ -51,28 +53,12 @@ Steps that run in the background while the main workflow continues. Useful for l
 ## Common Use Cases
 
 ### Intent-Based Routing
-Route to specialized handlers based on customer intent detected by a previous LLM step.
+Route to specialized handlers based on customer intent.
 
 **Example workflow:**
-1. LLM Step classifies customer intent and outputs to `{intent}` variable
-2. Router checks `{intent}` value
-3. Routes to appropriate handler (order_status, returns, billing, etc.)
-
-### Customer Tier Routing
-Direct premium customers to specialized support flows.
-
-**Example:**
-- Next step variable: `customer_tier`
-- Accepted next steps: `premium_support`, `vip_support`
-- Fallback step: `standard_support`
-
-### Conditional Workflow Paths
-Route based on business logic evaluated in a previous JavaScript Code step.
-
-**Example:**
-- Next step variable: `eligibility`
-- Accepted next steps: `approved_flow`, `review_flow`
-- Fallback step: `denied_flow`
+1. Structured Output step analyzes the customer message and outputs to `{next_step}` variable
+2. Router checks `{next_step}` value
+3. Routes to appropriate handler (greeting, issue_identification, issue_resolution, closing, etc.)
 
 ## Related Pages
 
