@@ -14,7 +14,7 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "O Get Started",
+            "group": "Get Started",
             "pages": [
               "introduction",
               "getStarted/architecture",
@@ -68,7 +68,7 @@
         ]
       },
       {
-        "tab": "O API Reference",
+        "tab": "API Reference",
         "groups": [
           {
             "group": "Getting Started",

@@ -1,32 +1,169 @@
 ---
 title: Best Practices for Building SmartAgents
-description: Best practices for building SmartAgents with the XtendOps platform
+description: Framework and best practices for architecting SmartAgents
 icon: "wand-magic-sparkles"
 ---
 
-This page provides best practices for building SmartAgents with the XtendOps platform.
+Whether building a workflow for a single intent or an entire SmartAgent handling multiple use cases, the same foundational questions guide the architecture.
 
-## Best Practices
+## Core Architecture Framework
 
-1. **Start Simple** - Begin with a basic flow and add complexity incrementally
-2. **Test Frequently** - Use Step Simulation and Play All to validate changes
-3. **Version Control** - Create new versions for significant changes
-4. **Use Events Wisely** - Leverage conversation events for context preparation
-5. **Document Changes** - Keep track of what each version changes
+Every SmartAgent, regardless of size or complexity, should address these four essential components:
 
-**Characteristics:**
+### 1. Context: Where do we get the information needed?
 
-- Contains its own SmartAgents, metrics, and settings
-- Access permissions are specific to each client account
-- Data is isolated between client accounts
+Identify and gather all necessary context to fulfill the use case.
+
+**Common Context Sources:**
+- **External APIs** - CRM data, order systems, customer databases
+- **Knowledge Articles** - Company policies, procedures, FAQs
+- **Conversation History** - Previous messages and background context
+- **User Input** - Current message and extracted information
+- **Integration Data** - Zendesk tickets, Salesforce cases, etc.
+
+**Steps to Use:**
+- [REST API Call](/steps/rest-api-call) - Connect to external systems
+- [Knowledge Search](/steps/knowledge-search) - Retrieve relevant articles
+- [Structured Output](/steps/structured-output) - Extract data from messages
+- [MCP](/steps/mcp) - Connect to MCP-enabled data sources
+
+### 2. Decisions: What does the AI need to determine?
+
+Based on the gathered context, identify what decisions the AI must make.
+
+**Common Decisions:**
+- Is the ticket resolved or does it need escalation?
+- What is the customer's intent? (order status, return, complaint, etc.)
+- What routing path should the conversation take?
+- Which knowledge articles are most relevant?
+- What priority level should be assigned?
+- Does the response require manager approval?
+
+**Steps to Use:**
+- [Structured Output](/steps/structured-output) - Extract decision criteria into structured format
+- [Router](/steps/router) - Route workflow based on decisions
+- [LLM Step](/steps/llm-step) - Make AI-powered determinations
+
+### 3. Response: How should the AI respond to the customer?
+
+Craft the appropriate response based on context and decisions made.
+
+**Response Considerations:**
+- Provide accurate information from gathered context
+- Address the customer's specific question or concern
+- Include next steps or actions required
+- Match the conversation stage (greeting, resolution, closing)
+- Incorporate personalization (customer name, order details, etc.)
+
+**Steps to Use:**
+- [LLM Step](/steps/llm-step) - Generate AI-driven responses
+- [Structured Output](/steps/structured-output) - Format response with specific fields
+- [Call SmartAgent](/steps/call-smartagent) - Leverage specialized SmartAgents
+
+### 4. Quality: Is the response on-brand and within guidelines?
+
+Ensure the final response meets quality standards before delivery.
+
+**Quality Checks:**
+- Brand voice and tone consistency
+- Compliance with company guidelines
+- Accuracy of information provided
+- Appropriate length and clarity
+- No hallucinations or incorrect data
+- Professional and empathetic language
+
+**Quality Mechanisms:**
+- Use **Co-Pilot** for agent review and editing
+- Create [Evals](/platform/evals) to benchmark performance
+- Implement [Quality Review](/platform/qaQueue) workflows
+- Set up SmartActions for tone adjustments
+- Define clear system prompts with brand guidelines
+
+## The Flow: Putting It All Together
+
+```
+Trigger Event (Message received, API call, etc.)
+    ↓
+1. CONTEXT: Gather necessary information
+    ├→ API calls for customer data
+    ├→ Knowledge searches for policies
+    └→ Extract info from conversation
+    ↓
+2. DECISIONS: Determine next actions
+    ├→ What is the intent?
+    ├→ Is this resolved or escalated?
+    └→ What routing path?
+    ↓
+3. RESPONSE: Craft the reply
+    ├→ Generate AI response with context
+    ├→ Include relevant information
+    └→ Personalize for customer
+    ↓
+4. QUALITY: Validate and deliver
+    ├→ Check brand guidelines
+    ├→ Verify accuracy
+    └→ Send (automated) or suggest (Co-Pilot)
+```
+
+## Implementation Best Practices
+
+### Start Simple
+Begin with a basic flow addressing the four core components. Add complexity incrementally as you validate each piece works correctly.
+
+### Test Frequently
+- Use **Step Simulation** to test individual steps
+- Run [Evals](/platform/evals) to benchmark against real conversation data
+- Use **Play All** to validate the entire workflow
+
+### Modular Design
+- Break complex logic into reusable [SmartActions](/platform/smartAgentActions)
+- Use [Call SmartAgent](/steps/call-smartagent) for specialized workflows
+- Keep individual steps focused on single tasks
+
+### Version Control
+Create new versions for significant changes. This enables:
+- Rollback capabilities if issues arise
+- A/B testing via evals
+- Clear change history
+
+### Leverage Background Context
+Use background context variables to maintain conversation state:
+- `smartagent__conversation_summary` for Co-Pilot Summary Section
+- Custom variables for workflow state
+- Data that persists across messages
+
+### Document Your Work
+- Add clear step names and descriptions
+- Document decision logic in Router steps
+- Maintain notes on what each version changes
+- Keep prompt templates organized
+
+## Common Patterns
+
+### Single-Intent Workflow
+For handling one specific use case (e.g., order status lookup):
+1. Context: API call to get order data
+2. Decisions: Is order found? What status?
+3. Response: Provide order details
+4. Quality: Verify accuracy, check tone
+
+### Multi-Intent SmartAgent
+For handling various customer inquiries:
+1. Context: Gather message history + knowledge
+2. Decisions: Classify intent, route to appropriate sub-workflow
+3. Response: Execute intent-specific response generation
+4. Quality: Ensure consistency across all intents
+
+### Co-Pilot Workflow
+For agent-assisted responses:
+1. Context: Ticket data + conversation history
+2. Decisions: What information to highlight in summary
+3. Response: Generate suggested reply
+4. Quality: Agent reviews and edits before sending
 
 ## Related Pages
 
-- [Introduction](/introduction) - Get started with XtendOps
-- [Platform Essentials](/platform/smartAgentBuilder) - Learn about platform features
-
-**Examples:**
-
-- Intent (e.g., order_status, return_request)
-- Sentiment (positive, negative, neutral)
-- Product category
+- [SmartAgent Builder](/platform/smartAgentBuilder) - Visual workflow editor
+- [Step Types](/steps/smartAgentSteps) - Available building blocks
+- [SmartActions](/platform/smartAgentActions) - Reusable workflows
+- [Testing & Evals](/platform/evals) - Validate performance

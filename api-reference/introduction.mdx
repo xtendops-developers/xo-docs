@@ -15,18 +15,21 @@ The XtendOps API allows you to programmatically access SmartAgent capabilities, 
     Contact your XtendOps teammate to request an API authentication token for your organization.
 
     [Learn more about authentication →](/api-reference/authentication)
+
   </Step>
 
   <Step title="Configure Your SmartAgent">
     Build and configure a SmartAgent in the XtendOps platform that will power your API responses.
 
     [SmartAgent Builder documentation →](/platform/smartAgentBuilder)
+
   </Step>
 
   <Step title="Make Your First Request">
     Use the Agent Assist API to generate AI-powered responses for your customer conversations.
 
     [Agent Assist API documentation →](/api-reference/agent-assist)
+
   </Step>
 </Steps>
 
@@ -74,49 +77,18 @@ Authorization: YOUR_API_TOKEN
   Contact your XtendOps teammate to request access
 </Card>
 
-## Request Format
-
-All API requests should:
-- Use HTTPS
-- Include `Content-Type: application/json` header
-- Include your authentication token in the `Authorization` header
-- Send data in JSON format
-
-## Response Format
-
-API responses are returned in JSON format and include:
-- Response data from the SmartAgent
-- Conversation metadata
-- Processing information
-- Error messages (when applicable)
-
 ## Error Handling
 
 The API uses standard HTTP response codes:
 
-| Code | Description |
-|------|-------------|
-| 200 | Success - Request completed successfully |
-| 400 | Bad Request - Invalid request parameters |
-| 401 | Unauthorized - Invalid or missing authentication token |
-| 404 | Not Found - Requested resource doesn't exist |
-| 429 | Too Many Requests - Rate limit exceeded |
-| 500 | Internal Server Error - Server-side error occurred |
-
-## Rate Limits
-
-Rate limits are configured per organization. Contact your XtendOps teammate for:
-- Your current rate limits
-- Request rate limit increases
-- Best practices for high-volume use cases
-
-## Support
-
-For API support, questions, or to request additional features:
-
-- **Technical Issues**: Contact your XtendOps teammate
-- **Documentation Feedback**: Report issues or suggest improvements
-- **Feature Requests**: Discuss new capabilities with your account team
+| Code | Description                                            |
+| ---- | ------------------------------------------------------ |
+| 200  | Success - Request completed successfully               |
+| 400  | Bad Request - Invalid request parameters               |
+| 401  | Unauthorized - Invalid or missing authentication token |
+| 404  | Not Found - Requested resource doesn't exist           |
+| 429  | Too Many Requests - Rate limit exceeded                |
+| 500  | Internal Server Error - Server-side error occurred     |
 
 ## Quick Start Example
 
@@ -152,21 +124,21 @@ curl --location 'https://agent-assist.xtendops.com/api/agent-assist' \
     Set up your API authentication
   </Card>
 
-  <Card
-    title="Agent Assist API"
-    icon="robot"
-    href="/api-reference/agent-assist"
-  >
-    Learn about the Agent Assist endpoint
-  </Card>
+{" "}
 
-  <Card
-    title="SmartAgent Builder"
-    icon="wand-magic-sparkles"
-    href="/platform/smartAgentBuilder"
-  >
-    Configure your SmartAgents
-  </Card>
+<Card title="Agent Assist API" icon="robot" href="/api-reference/agent-assist">
+  Learn about the Agent Assist endpoint
+</Card>
+
+{" "}
+
+<Card
+  title="SmartAgent Builder"
+  icon="wand-magic-sparkles"
+  href="/platform/smartAgentBuilder"
+>
+  Configure your SmartAgents
+</Card>
 
   <Card
     title="Platform Overview"
