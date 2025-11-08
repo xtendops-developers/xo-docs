@@ -4,31 +4,52 @@ description: Key terminology and concepts for the XtendOps platform
 icon: "book-open"
 ---
 
-Understanding the terminology used throughout the XtendOps platform is essential for effective use. This glossary provides definitions for key concepts, features, and technical terms.
+Key terminology and concepts for the XtendOps platform.
 
 ## Core Concepts
 
 ### SmartAgent
 
-XtendOps' take on AI agents — BPO-focused AI agents designed specifically to meet customer needs. SmartAgents are configurable workflows that combine multiple steps to handle customer interactions automatically or assist human agents.
+BPO-focused AI agents designed to handle customer interactions. SmartAgents are configurable workflows built with modular steps that can be deployed for automated or human-augmented use cases.
 
-### XO_AI / Customer Portal / Xoos
+**Deployment Options:**
+- **Automated** - Via API for fully automated customer interactions
+- **Human-Augmented** - Via SmartAgent App (Co-Pilot or Mission Control) for agent assistance
 
-Synonyms for the main platform where users log in to view, manage, and build SmartAgents and access the Dashboard.
+[Learn more about SmartAgent Builder →](/platform/smartAgentBuilder)
 
-**Background:**
-- **Xoos** - Legacy name from before XOAI branding, originally stood for "XO Operating System" and used as the domain name
-- **CustomerPortal** - Older term from when there were separate portals (e.g., TalentPortal for recruiting and CustomerPortal for client-facing tools)
-- **XOAI** - Current preferred term, representing the application where the core AI offerings are accessed
+### XtendOps Platform
+
+The main platform (xoos.xtendops.com) where users build, manage, and monitor SmartAgents.
+
+**Key Features:**
+- SmartAgent Builder - Visual workflow editor
+- Testing & Evals - Performance validation
+- Knowledge Management - Article repository
+- Dashboard - Metrics and analysis
+- Quality - Conversation review
+- Settings - User and integration management
+
+[Platform Architecture →](/getStarted/architecture)
+
+### SmartAgent App
+
+The end-user interface for accessing SmartAgents, available in two form factors:
+
+**Co-Pilot** - AI-suggested responses embedded in CRMs (Zendesk, Genesys). Agents review, edit, and send suggestions.
+[Learn more →](/smartAgentApp/coPilot)
+
+**Mission Control** - Chrome extension providing conversational AI assistance with context awareness of the current webpage.
+[Learn more →](/smartAgentApp/missionControl)
 
 ### Client Account
 
-A workspace for a specific customer (e.g., "HelloFresh Client Account", "Warby Client Account").
+An isolated workspace for a specific customer organization.
 
 **Characteristics:**
-- Contains its own SmartAgents, metrics, and settings
-- Access permissions are specific to each client account
-- Data is isolated between client accounts
+- Dedicated SmartAgents, metrics, and settings
+- Account-specific access permissions
+- Data isolated from other client accounts
 
 ## Conversation Components
 
@@ -49,67 +70,76 @@ Conversation-level information available to a SmartAgent for subsequent runs.
 - Extracted via AI
 - Used to maintain continuity and context across multiple messages in a conversation
 
+## SmartAgent Components
+
+### Step
+
+Modular building blocks that execute specific tasks within a SmartAgent workflow. Steps can include LLM processing, API calls, knowledge searches, structured output, routing, and more.
+
+[View all step types →](/steps/smartAgentSteps)
+
+### SmartAction
+
+Reusable, task-specific workflows that can be triggered by agents, SmartAgents, or timers. Available in both Co-Pilot and Mission Control via `/<action-name>` commands.
+
+[Learn more about SmartActions →](/platform/smartAgentActions)
+
 ## Performance Metrics
 
-### Feedback Score / Accuracy Score / Assist Score
+### Feedback Score
 
-Synonyms for a performance metric used primarily in Co-Pilot use cases to measure how closely the AI-generated response matches the final message sent by the agent.
+Performance metric for Co-Pilot use cases that measures how closely the AI-generated response matches the final message sent by the agent. Calculated by comparing the original AI draft with the modified agent version.
 
-**Calculation:**
-Calculated using an algorithm that compares the original AI draft with the modified agent version.
+**High Score:** Agent sent with minimal changes
+**Low Score:** Significant agent edits required
 
-### Resolution Score / Confinement Score
+### Resolution Score
 
-*(Term still being finalized)*
-
-Metric for automated use cases that measures how many conversations are resolved without escalation to a human agent.
+Metric for automated use cases that measures conversations resolved without escalation to a human agent.
 
 ## Testing & Quality
 
 ### Eval
 
-A group of messages and inputs used to evaluate SmartAgent performance. Evals are often created from real-world conversation data and can be tailored for specific purposes (e.g., all greetings, all resolutions) or designed as a "golden standard" sampling of many conversation types.
+A group of test messages used to evaluate SmartAgent performance. Evals can be created from real conversation data and tailored for specific scenarios (e.g., greetings, resolutions) or represent a comprehensive sampling of conversation types.
+
+[Create and manage evals →](/platform/evals)
 
 ### Run
 
-The execution of an Eval against one or more versions of a SmartAgent, producing results and performance metrics.
+The execution of an Eval against one or more SmartAgent versions, producing performance metrics and comparison data.
 
 ### Test
 
-An individual message and its input, drawn from the eval dataset.
+An individual message within an eval dataset.
 
 ## Technical Concepts
 
+### Background Context
+
+Conversation-level information maintained across multiple message exchanges within a SmartAgent.
+
+**Sources:**
+- Passed from external providers
+- Extracted via AI processing
+- Set programmatically (e.g., `smartagent__conversation_summary` for Co-Pilot Summary Section)
+
 ### Semantic Similarity
 
-An AI concept measuring how closely two pieces of text match in meaning, even if they use different wording. Used to cluster or retrieve related information.
+Measures how closely two pieces of text match in meaning, regardless of wording differences.
 
 **Applications:**
 - Knowledge article retrieval
-- Voice of the Customer queries
-- Conversation matching
-- Content recommendations
+- Voice of Customer analysis
+- Conversation clustering
 
 ### Data Tags
 
-Metadata assigned to conversations to assist with reporting and filtering.
-
-**Examples:**
-- Intent (e.g., order_status, return_request)
-- Sentiment (positive, negative, neutral)
-- Product category
-- Issue type
-- Resolution status
-
-## Legacy Terms
-
-### Talent Portal
-
-Legacy tool for applicant tracking and talent acquisition management. Applicants apply to jobs here, and the talent acquisition team manages applications.
-
-**Note:** There is no integration between TalentPortal and XOAI.
+Metadata assigned to conversations for reporting and filtering (e.g., intent, sentiment, product category, issue type).
 
 ## Related Pages
 
-- [Introduction](/introduction) - Get started with XtendOps
-- [Platform Essentials](/platform/smartAgentBuilder) - Learn about platform features
+- [Platform Architecture](/getStarted/architecture) - How components work together
+- [SmartAgent Builder](/platform/smartAgentBuilder) - Build workflows
+- [Step Types](/steps/smartAgentSteps) - Modular building blocks
+- [SmartAgent App](/smartAgentApp/overview) - Deployment options
