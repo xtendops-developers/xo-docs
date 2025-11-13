@@ -1,16 +1,16 @@
 ---
-title: Testing Suite
+title: Evals
 description: Evaluate and benchmark SmartAgents to prevent regressions
 icon: "flask"
 ---
 
-The **Testing Suite** is used to evaluate and benchmark SmartAgents to ensure that updates and improvements do not cause regressions. It enables systematic testing of SmartAgent versions to track performance over time.
+**Evals** are used to evaluate and benchmark SmartAgents to ensure that updates and improvements do not cause regressions. It enables systematic testing of SmartAgent versions to track performance over time.
 
 ## Overview
 
-The Testing Suite helps teams maintain and improve SmartAgent quality through continuous evaluation. By running standardized tests against different versions, you can ensure that changes enhance rather than degrade performance.
+Evals help teams maintain and improve SmartAgent quality through continuous evaluation. By running standardized tests against different versions, you can ensure that changes enhance rather than degrade performance.
 
-<img src="/platform/images/testing-suite-interface.png" alt="Testing Suite Interface" />
+<img src="/platform/images/testing-suite-interface.png" alt="Eval Interface" />
 
 ## Key Concepts
 
@@ -19,12 +19,14 @@ The Testing Suite helps teams maintain and improve SmartAgent quality through co
 A collection of messages and their corresponding inputs, used to test SmartAgents.
 
 **Characteristics:**
+
 - Created from real-world conversation data
 - Can be tailored for specific purposes (e.g., all greetings, all resolutions)
 - May represent a "golden standard" sampling of many conversation types
 - Reusable across multiple test runs
 
 **Example Evals:**
+
 - "HelloFresh Greetings" - All greeting interactions
 - "HelloFresh Resolution" - Complete resolution scenarios
 - "HelloFresh Agent Response Evaluation" - Comprehensive multi-scenario testing
@@ -34,6 +36,7 @@ A collection of messages and their corresponding inputs, used to test SmartAgent
 An individual message and its input, drawn from the eval dataset.
 
 **Components:**
+
 - Input message from customer
 - Expected context or background data
 - Evaluation criteria
@@ -44,6 +47,7 @@ An individual message and its input, drawn from the eval dataset.
 The execution of an eval's tests against a specific version of a SmartAgent.
 
 **Outputs:**
+
 - Pass/fail rate
 - Performance metrics
 - Individual test results
@@ -51,26 +55,30 @@ The execution of an eval's tests against a specific version of a SmartAgent.
 
 ## Purpose
 
-The Testing Suite enables continuous improvement by tracking incremental changes to ensure SmartAgents get better over time, not worse. It helps identify unintended performance drops after changes, benchmark new versions against historical averages, and ensure improvements in one area don't negatively impact unrelated functionality.
+Evals enable continuous improvement by tracking incremental changes to ensure SmartAgents get better over time, not worse. It helps identify unintended performance drops after changes, benchmark new versions against historical averages, and ensure improvements in one area don't negatively impact unrelated functionality.
 
 ## Use Cases
 
 ### Before Deployment
+
 - Validate changes before pushing to production
 - Compare new version against current production baseline
 - Ensure pass rate meets minimum thresholds
 
 ### Continuous Monitoring
+
 - Run regular evals to catch unexpected regressions
 - Track performance trends over time
 - Build confidence in SmartAgent reliability
 
 ### Targeted Improvements
+
 - Test specific conversation types (greetings, resolutions, etc.)
 - Validate fixes for known issues
 - Ensure edge cases are handled correctly
 
 ### Customer Reporting
+
 - Demonstrate quality improvements to stakeholders
 - Show performance metrics over time
 - Provide evidence of continuous optimization
@@ -95,7 +103,8 @@ The Testing Suite enables continuous improvement by tracking incremental changes
 
 ## Benefits
 
-By continuously running evals, the Testing Suite supports:
+By continuously running evals supports:
+
 - **Consistent upward progress** in SmartAgent quality
 - **Prevention of regressions** where fixing one area breaks another
 - **Data-driven optimization** based on real performance metrics
